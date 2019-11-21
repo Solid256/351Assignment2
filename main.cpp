@@ -4,7 +4,6 @@
 
 #include "Process.h"
 #include "MemoryManager.h"
-using namespace std;
 
 // Reads the process list file and creates the process objects and stores them
 // in a vector.
@@ -115,31 +114,79 @@ int main()
 	// If successful, continue.
 	if(success)
 	{
+		// The maximum memory size of the OS.
 		int memorySize;
+
+		// The maximum page size of the OS.
 		int pageSize;
-		int user_input;
-		// TODO: Prompt the user for memory size, paging size, etc.
-		cout << "Memory size: ";
-		cin >> memorySize;
-		cout << "Page Size (1: 100, 2: 200, 3: 400): ";
-		cin >> user_input;
 
-		switch (user_input) {
-			case 1:
-				pageSize = 100;
-				break;
-			case 2:
-				pageSize = 200;
-				break;
-			case 3:
-				pageSize = 400;
-				break;
-			default:
-				break;
+		// The user input.
+		int userInput;
 
+		// Checks if the user input is valid.
+		bool validInput = true;
 
-		}
+		do
+		{
+			validInput = true;
+
+			std::cout << "Please input the Memory Size: ";
+			std::cin >> memorySize;
+
+			if(memorySize < 1)
+			{
+				validInput = false;
+				std::cout << "\nError! You must have a positive memory size!\n\n";
+			}
+		}while(!validInput);
+
+		do
+		{
+			validInput = true;
+
+			std::cout << "Page Size (1: 100, 2: 200, 3: 400): ";
+			std::cin >> userInput;
+
+			switch (userInput) 
+			{
+				case 1:
+					pageSize = 100;
+					break;
+				case 2:
+					pageSize = 200;
+					break;
+				case 3:
+					pageSize = 400;
+					break;
+				default:
+					validInput = false;
+					std::cout << "\nError! Please select a valid input!\n\n";
+					break;
+			}
+		}while(!validInput);
+
+		// The time elapsed in fake time units.
+		int time = 0;
+		
+		// The memory manager descriptor.
+		MemoryManagerDesc desc;
+
+		desc.memorySize = memorySize;
+		desc.pageSize = pageSize;
+		desc.pTime = &time;
+
+		// Initialize the memory manager.
+		memoryManager.Init(desc);
+
 		// TODO: Add processes to processing queue in a loop.
+
+		// The main loop for the OS simulator.
+		while(processList.size() > 0)
+		{
+			++time;
+			processList.pop_back();
+		}
+
 		// TODO: Compute the Average Turnaround Time.
 	}
 
