@@ -1,19 +1,39 @@
 #include <vector>
 
+#ifndef PROCESS_H
+#define PROCESS_H
+
+struct MemoryChunk
+{
+	// The size in bytes of the memory chunk.
+	int size = -1;
+
+	// The lower bound address of the memory chunk in memory.
+	// Determined when added to the memory manager.
+	int lowerBound = -1;
+
+	// The upper bound address of the memory chunk in memory.
+	// Determined when added to the memory manager.
+	int upperBound = -1;
+};
+
+// A typedef for the memory chunks vector.
+typedef std::vector<MemoryChunk> MemoryChunks;
+
 // The descriptor for the process class.
 struct ProcessDesc
 {
 	// The process ID.
-	unsigned int mPID = 0;
+	int mPID = -1;
 	
 	// The time it takes for the program to enter the ready queue.
-	unsigned int mArrivalTime = 0;
+	int mArrivalTime = -1;
 
 	// The time it takes to execute the process.
-	unsigned int mExecutionTime = 0;
+	int mExecutionTime = -1;
 
 	// The memory chunks that make up the process.
-	std::vector<unsigned int> mMemoryChunks;
+	MemoryChunks mMemoryChunks;
 };
 
 class Process
@@ -26,26 +46,31 @@ public:
 	// Initializes the process.
 	void Init(ProcessDesc& rDesc);
 
+	// Decrements the amount of execution time by 1 time unit.
+	void DecrementExecutionTime();
+
 	// Getters:
-	unsigned int GetPID();
-	unsigned int GetArrivalTime();
-	unsigned int GetExecutionTime();
-	std::vector<unsigned int> GetMemoryChunks();
+	int GetPID();
+	int GetArrivalTime();
+	int GetExecutionTime();
+	MemoryChunks* GetMemoryChunksPtr();
 
 	// Variables:
 private:
 	// The process ID.
-	unsigned int mPID;
+	int mPID;
 	
 	// The time it takes for the program to enter the ready queue.
-	unsigned int mArrivalTime;
+	int mArrivalTime;
 
 	// The time it takes to execute the process.
-	unsigned int mExecutionTime;
+	int mExecutionTime;
 
 	// The memory chunks that make up the process.
-	std::vector<unsigned int> mMemoryChunks;
+	MemoryChunks mMemoryChunks;
 };
 
 // Typedefs:
 typedef std::vector<Process> ProcessList;
+
+#endif

@@ -16,23 +16,28 @@ void Process::Init(ProcessDesc& rDesc)
 	mMemoryChunks = rDesc.mMemoryChunks;
 }
 
+void Process::DecrementExecutionTime()
+{
+	--mExecutionTime;
+}
+
 // Getters:
-unsigned int Process::GetPID()
+int Process::GetPID()
 {
 	return mPID;
 }
 
-unsigned int Process::GetArrivalTime()
+int Process::GetArrivalTime()
 {
 	return mArrivalTime;
 }
 
-unsigned int Process::GetExecutionTime()
+int Process::GetExecutionTime()
 {
 	return mExecutionTime;
 }
 
-std::vector<unsigned int> Process::GetMemoryChunks()
+MemoryChunks* Process::GetMemoryChunksPtr()
 {
-	return mMemoryChunks;
+	return &mMemoryChunks;
 }

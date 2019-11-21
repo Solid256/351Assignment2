@@ -27,26 +27,26 @@ bool ReadProcessListFile(ProcessList& rProcessList, std::string fileName)
 	if(inFile.is_open())
 	{
 		// The number of processes being read.
-		unsigned int numOfProcesses = 0;
+		int numOfProcesses = -1;
 
 		// The current process id.
-		unsigned int curPID = 0;
+		int curPID = -1;
 
 		// The time it takes for the program to arrive.
-		unsigned int arrivalTime = 0;
+		int arrivalTime = -1;
 
 		// How long it takes to complete the current process.
-		unsigned int executionTime = 0;
+		int executionTime = -1;
 
 		// The number of memory chunks for the current process.
-		unsigned int numOfMemChunks = 0;
+		int numOfMemChunks = -1;
 
 		// The value of the current memory chunk.
-		unsigned int memChunkVal = 0;
+		int memChunkVal = -1;
 
 		inFile >> numOfProcesses;
 
-		for(unsigned int i = 0; i < numOfProcesses; i++)
+		for(int i = 0; i < numOfProcesses; i++)
 		{
 			// The current process being created.
 			Process curProcess;
@@ -60,10 +60,16 @@ bool ReadProcessListFile(ProcessList& rProcessList, std::string fileName)
 			inFile >> numOfMemChunks;
 			
 			// Create each individual memory chunk.
-			for(unsigned int j = 0; j < numOfMemChunks; j++)
+			for(int j = 0; j < numOfMemChunks; j++)
 			{
 				inFile >> memChunkVal;
-				desc.mMemoryChunks.push_back(memChunkVal);
+
+				// The current memory chunk being created.
+				MemoryChunk curMemoryChunk;
+				
+				curMemoryChunk.size = memChunkVal;
+
+				desc.mMemoryChunks.push_back(curMemoryChunk);
 			}
 
 			desc.mPID = curPID;
@@ -171,20 +177,34 @@ int main()
 		// The memory manager descriptor.
 		MemoryManagerDesc desc;
 
-		desc.memorySize = memorySize;
-		desc.pageSize = pageSize;
+		desc.maxMemorySize = memorySize;
+		desc.maxPageSize = pageSize;
 		desc.pTime = &time;
 
 		// Initialize the memory manager.
 		memoryManager.Init(desc);
 
-		// TODO: Add processes to processing queue in a loop.
-
-		// The main loop for the OS simulator.
+		// TODO A: For testing purposes only! Remove if not needed.
 		while(processList.size() > 0)
 		{
-			++time;
+			// A reference to the current process being 
+			// added to the memory manager.
+			Process& rProcess = processList.back();
+					
 			processList.pop_back();
+			memoryManager.AttemptAddProcess(rProcess);
+		}
+
+		// The main loop for the OS simulator.
+		while(processList.size() > 0 || 
+			memoryManager.GetNumProcessesRunning() > 0)
+		{
+			++time;
+			memoryManager.RunProcesses();
+
+			// TODO A: Determine if a process is ready to be 
+			// added to the memory manager based on its 
+			// starting time.
 		}
 
 		// TODO: Compute the Average Turnaround Time.
