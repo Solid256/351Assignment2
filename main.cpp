@@ -4,6 +4,7 @@
 
 #include "Process.h"
 #include "MemoryManager.h"
+using namespace std;
 
 // Reads the process list file and creates the process objects and stores them
 // in a vector.
@@ -114,7 +115,30 @@ int main()
 	// If successful, continue.
 	if(success)
 	{
+		int memorySize;
+		int pageSize;
+		int user_input;
 		// TODO: Prompt the user for memory size, paging size, etc.
+		cout << "Memory size: ";
+		cin >> memorySize;
+		cout << "Page Size (1: 100, 2: 200, 3: 400): ";
+		cin >> user_input;
+
+		switch (user_input) {
+			case 1:
+				pageSize = 100;
+				break;
+			case 2:
+				pageSize = 200;
+				break;
+			case 3:
+				pageSize = 400;
+				break;
+			default:
+				break;
+
+
+		}
 		// TODO: Add processes to processing queue in a loop.
 		// TODO: Compute the Average Turnaround Time.
 	}
