@@ -49,6 +49,9 @@ public:
 	// Decrements the amount of execution time by 1 time unit.
 	void DecrementExecutionTime();
 
+	//Used for debugging
+	void printProcess();
+
 	// Getters:
 	int GetPID();
 	int GetArrivalTime();

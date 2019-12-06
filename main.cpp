@@ -144,7 +144,7 @@ int main()
 				validInput = false;
 				std::cout << "\nError! You must have a positive memory size!\n\n";
 			}
-		}while(!validInput);
+		} while(!validInput);
 
 		do
 		{
@@ -220,10 +220,12 @@ int main()
 
 	// TODO: Compute the Average Turnaround Time.
 	float totalTime = 0;
+	std::cout << "\nProcess List size: " << processList.size();
 	
 	for (int i = 0; i < processList.size(); i++ ) {
 		
 		Process currentProcess = processList.at(i);
+		currentProcess.printProcess();
 		totalTime += currentProcess.GetExecutionTime();
 
 	}
