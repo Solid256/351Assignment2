@@ -67,6 +67,8 @@ void MemoryManager::AttemptAddProcess(Process& rProcess)
 	//vector that will hold upper and lower bounds
 	// in the form upper, lower, upper, lower, etc...
 	std::vector<int> bounds;
+
+	
 	// iterate through each process that is running
 	for (int i = 0; i < mProcessesRunning.size(); i++) {
 		std::cout << "\n\nIterating through a new running process. Printing process: \n";
@@ -91,6 +93,7 @@ void MemoryManager::AttemptAddProcess(Process& rProcess)
 	{
 		// Add the process to the processes running list.
 		mProcessesRunning.push_back(rProcess);
+		rProcess.
 
 		// TODO A: Display the memory map just like in the examples.
 	}

@@ -58,10 +58,16 @@ bool ReadProcessListFile(ProcessList& rProcessList, std::string fileName)
 			inFile >> arrivalTime;
 			inFile >> executionTime;
 			inFile >> numOfMemChunks;
+
+			// The final line of input per process has the number of memory chunks followed by a 
+			// sequence of numbers that need to be added together to get the sum of the total amount 
+			// of memory needed for that process 
 			
+			// this will do the adding 
 			// Create each individual memory chunk.
 			for(int j = 0; j < numOfMemChunks; j++)
 			{
+				
 				inFile >> memChunkVal;
 
 				// The current memory chunk being created.
@@ -72,12 +78,16 @@ bool ReadProcessListFile(ProcessList& rProcessList, std::string fileName)
 				desc.mMemoryChunks.push_back(curMemoryChunk);
 			}
 
+
+			// Assigning values to the new process
 			desc.mPID = curPID;
 			desc.mArrivalTime = arrivalTime;
 			desc.mExecutionTime = executionTime;
 
+			// initialize the new process with the values we have assigned
 			curProcess.Init(desc);
 			
+			//add the new process to the process list
 			rProcessList.push_back(curProcess);
 		}
 
