@@ -205,10 +205,34 @@ int main()
 			// TODO A: Determine if a process is ready to be 
 			// added to the memory manager based on its 
 			// starting time.
+            
+            // go through process list
+			for (int i = 0; i < processList.size(); i++) {
+				Process currentProcess = processList.at(i);
+				int startingTime = currentProcess.GetArrivalTime();
+
+				if (time == startingTime) {
+					// process should be added?
+					memoryManager.AttemptAddProcess(currentProcess);
+				}
+			}
 		}
 
-		// TODO: Compute the Average Turnaround Time.
+	// TODO: Compute the Average Turnaround Time.
+	float totalTime = 0;
+	
+	for (int i = 0; i < processList.size(); i++ ) {
+		
+		Process currentProcess = processList.at(i);
+		totalTime += currentProcess.GetExecutionTime();
+
+	}
+	float averageTurnAroundTime = totalTime / processList.size();
+	printf("Average Turn Around Time: %2.2f\n", averageTurnAroundTime);
+
+
 	}
 
 	return 0;
 }
+

@@ -53,6 +53,8 @@ void MemoryManager::AttemptAddProcess(Process& rProcess)
 	// The memory chunks of the current process.
 	MemoryChunks* pMemoryChunks = rProcess.GetMemoryChunksPtr();
 
+    
+    
 	if(canFit)
 	{
 		// Add the process to the processes running list.
