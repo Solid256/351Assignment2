@@ -5,13 +5,13 @@ Name: Vincent Deaugustine   Email: VinnieD44@csu.fullerton.edu
 Programming Language Used: C++
 
 How to execute the program(s):
-TODO
+In the console, type ./OS_Simulator and press enter.
 
 Extra credit has been implemented:
-TODO
+Nope.
 
 Anything Special about the Submission:
-TODO
+It is very simple and straightforward. The pages themselves manage their own starting and ending indexes.
 
 
 
