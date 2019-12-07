@@ -15,6 +15,8 @@ void Process::Init(ProcessDesc& rDesc)
 	mArrivalTime = rDesc.mArrivalTime;
 	mExecutionTime = rDesc.mExecutionTime;
 	mMemoryChunks = rDesc.mMemoryChunks;
+	// aMN = rDesc.mAmntMemNeeded;
+	// aPN = rDesc.mAmntPagesNeeded;
 }
 
 void Process::DecrementExecutionTime()
@@ -43,6 +45,15 @@ MemoryChunks* Process::GetMemoryChunksPtr()
 	return &mMemoryChunks;
 }
 
+// int GetAmntMemNeeded()
+// {
+// 	return aMN;
+// }
+//
+// int GetAmntPagesNeeded ()
+// {
+// 	return aPN;
+// }
 
 // Using this function for debugging
 

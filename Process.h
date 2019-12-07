@@ -34,6 +34,10 @@ struct ProcessDesc
 
 	// The memory chunks that make up the process.
 	MemoryChunks mMemoryChunks;
+
+	// int mAmntMemNeeded = -1;
+	//
+	// int mAmntPagesNeeded = -1;
 };
 
 class Process
@@ -59,6 +63,8 @@ public:
 	int GetArrivalTime();
 	int GetExecutionTime();
 	MemoryChunks* GetMemoryChunksPtr();
+	int GetAmntMemNeeded();
+	int GetAmntPagesNeeded();
 
 	// Variables:
 private:
@@ -73,6 +79,10 @@ private:
 
 	// The memory chunks that make up the process.
 	MemoryChunks mMemoryChunks;
+
+	//
+	// int aMN;
+	// int aPN;
 };
 
 // Typedefs:

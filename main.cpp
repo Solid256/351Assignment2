@@ -71,6 +71,8 @@ bool ReadProcessListFile(ProcessList& rProcessList, std::string fileName)
 			inFile >> executionTime;
 			inFile >> numOfMemChunks;
 
+			int memSum = 0;
+
 			// The final line of input per process has the number of memory chunks
 			// followed by a sequence of numbers that need to be added together to get
 			// the sum of the total amount of memory needed for that process
@@ -81,7 +83,7 @@ bool ReadProcessListFile(ProcessList& rProcessList, std::string fileName)
 			{
 
 				inFile >> memChunkVal;
-
+				memSum += memChunkVal;
 				// The current memory chunk being created.
 				MemoryChunk curMemoryChunk;
 
@@ -95,6 +97,8 @@ bool ReadProcessListFile(ProcessList& rProcessList, std::string fileName)
 			desc.mPID = curPID;
 			desc.mArrivalTime = arrivalTime;
 			desc.mExecutionTime = executionTime;
+			// desc.mAmntPagesNeeded = numOfMemChunks;
+			// desc.mAmntMemNeeded = memSum;
 
 			// initialize the new process with the values we have assigned
 			curProcess.Init(desc);
@@ -204,7 +208,7 @@ int main()
 					break;
 			}
 		}while(!validInput);
-		std::cout << "\nprocessList after 1 " << processList.size();
+		// std::cout << "\nprocessList after 1 " << processList.size();
 		// The time elapsed in fake time units.
 		// this is our virtual clock
 		int time = 0;
@@ -221,7 +225,7 @@ int main()
 		memoryManager.Init(desc);
 		Memory memory;
 		memory.Init(pageSize, memorySize);
-		std::cout << "\nprocessList after 2 " << processList.size();
+		// std::cout << "\nprocessList after 2 " << processList.size();
 // ----------------------------------------------------------------------
 		// TODO A: For testing purposes only! Remove if not needed.
 		// while(processList.size() > 0)
@@ -239,11 +243,11 @@ int main()
 
 		// The main loop for the OS simulator.
 		//while there are processes in the Input Queue or Processes are still running
-		std::cout << "Process list size3452dd " << processList.size() << "\n";
+		// std::cout << "Process list size3452dd " << processList.size() << "\n";
 		while(processList.size() > 0 ||
 			memoryManager.GetNumProcessesRunning() > 0)
 		{
-			++time;
+
 			memoryManager.RunProcesses();
 
             // go through process list
@@ -256,7 +260,7 @@ int main()
 					// a new process has arrived
 					int newProcessID = currentProcess.GetPID();
 					std::cout << "\nt = " << time << ": " << "Process " << newProcessID
-						<< " arrives";
+						<< " arrives\n";
 
 					// add the current process to the InputQueue
 					InputQueue.push_back(currentProcess);
@@ -265,6 +269,7 @@ int main()
 
 				}
 			}
+			++time;
 		}
 
 	// TODO: Compute the Average Turnaround Time.
