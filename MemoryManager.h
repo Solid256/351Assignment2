@@ -43,6 +43,7 @@ class MemoryManager
 	int mMaxPageSize;
 
 	// The list of processes running in memory.
+	// ProcessList is a typdef for vector<Process>
 	ProcessList mProcessesRunning;
 
 	// A pointer to the main timer.
