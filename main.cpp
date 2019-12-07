@@ -53,26 +53,26 @@ bool ReadProcessListFile(ProcessList& rProcessList, std::string fileName)
 
 			// The descriptor for the current process being created.
 			ProcessDesc desc;
-			
+
 			inFile >> curPID;
 			inFile >> arrivalTime;
 			inFile >> executionTime;
 			inFile >> numOfMemChunks;
 
-			// The final line of input per process has the number of memory chunks followed by a 
-			// sequence of numbers that need to be added together to get the sum of the total amount 
-			// of memory needed for that process 
-			
-			// this will do the adding 
+			// The final line of input per process has the number of memory chunks
+			// followed by a sequence of numbers that need to be added together to get
+			// the sum of the total amount of memory needed for that process
+
+			// this will do the adding
 			// Create each individual memory chunk.
 			for(int j = 0; j < numOfMemChunks; j++)
 			{
-				
+
 				inFile >> memChunkVal;
 
 				// The current memory chunk being created.
 				MemoryChunk curMemoryChunk;
-				
+
 				curMemoryChunk.size = memChunkVal;
 
 				desc.mMemoryChunks.push_back(curMemoryChunk);
@@ -86,8 +86,12 @@ bool ReadProcessListFile(ProcessList& rProcessList, std::string fileName)
 
 			// initialize the new process with the values we have assigned
 			curProcess.Init(desc);
-			
+
 			//add the new process to the process list
+			// rProcessList is a ProcessList that is passed into this function we
+			// are in right now. Its address is passed so that when we modify it
+			// in this function, the original ProcessList that was passed is changed
+			// outside of this scope as well
 			rProcessList.push_back(curProcess);
 		}
 
@@ -116,12 +120,15 @@ bool ReadProcessListFile(ProcessList& rProcessList, std::string fileName)
 int main()
 {
 	// The memory manager for this OS simulation.
+	// This is the main MemoryManager object that will be used throughout the
+	// program
 	MemoryManager memoryManager;
 
 	// The list of processes being read from the in file.
+	// ProcessList is a typdef of vector<Process>
 	ProcessList processList;
-	
-	// Checks if an error has occured.
+
+	// Checks if an error has occured while reading the file.
 	bool success = true;
 
 	// First, create the processes needed to be executed by the OS simulator.
@@ -163,7 +170,7 @@ int main()
 			std::cout << "Page Size (1: 100, 2: 200, 3: 400): ";
 			std::cin >> userInput;
 
-			switch (userInput) 
+			switch (userInput)
 			{
 				case 1:
 					pageSize = 100;
@@ -182,9 +189,11 @@ int main()
 		}while(!validInput);
 
 		// The time elapsed in fake time units.
+		// this is our virtual clock
 		int time = 0;
-		
+
 		// The memory manager descriptor.
+		// This will be passed to the MemoryManager constructor.
 		MemoryManagerDesc desc;
 
 		desc.maxMemorySize = memorySize;
@@ -194,28 +203,33 @@ int main()
 		// Initialize the memory manager.
 		memoryManager.Init(desc);
 
+// ----------------------------------------------------------------------
 		// TODO A: For testing purposes only! Remove if not needed.
 		while(processList.size() > 0)
 		{
-			// A reference to the current process being 
+			// A reference to the current process being
 			// added to the memory manager.
+			// the back() function returns the object at the end of the vector
 			Process& rProcess = processList.back();
-					
+
+			// remove this process from the processList
 			processList.pop_back();
 			memoryManager.AttemptAddProcess(rProcess);
 		}
+		// ----------------------------------------------------------------------
 
 		// The main loop for the OS simulator.
-		while(processList.size() > 0 || 
+		//while there are processes in the Input Queue or Processes are still running
+		while(processList.size() > 0 ||
 			memoryManager.GetNumProcessesRunning() > 0)
 		{
 			++time;
 			memoryManager.RunProcesses();
 
-			// TODO A: Determine if a process is ready to be 
-			// added to the memory manager based on its 
+			// TODO A: Determine if a process is ready to be
+			// added to the memory manager based on its
 			// starting time.
-            
+
             // go through process list
 			for (int i = 0; i < processList.size(); i++) {
 				Process currentProcess = processList.at(i);
@@ -231,9 +245,9 @@ int main()
 	// TODO: Compute the Average Turnaround Time.
 	float totalTime = 0;
 	std::cout << "\nProcess List size: " << processList.size();
-	
+
 	for (int i = 0; i < processList.size(); i++ ) {
-		
+
 		Process currentProcess = processList.at(i);
 		currentProcess.printProcess();
 		totalTime += currentProcess.GetExecutionTime();
@@ -244,7 +258,9 @@ int main()
 
 
 	}
+	else {
+		printf(stderr, "File was not processed correctly");
+	}
 
 	return 0;
 }
-

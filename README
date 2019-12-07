@@ -31,6 +31,8 @@ If the virtual clock time is the same as the Arrival of a process(es)
 	Memory Manager will attempt to move it to memory
 
 If a process is completed OR a new process arrives
+	Print
+		t = (current time of virtual clock): Process (#) arrives
 	If it is a new process arriving
 		the process will be added to the Input Queue
 	If a process is completed
@@ -45,12 +47,30 @@ If a process is completed OR a new process arrives
 	If it cannot
 		Memory Manager will iterate through the Input Queue and see if there are
 				any processes that CAN fit
-
-
-
-
-
+	Input Queue is printed in the form
+		Input Queue [1 2 ...] // the 1 and the 2 are the process IDs
+	Memory Map is printed in the form
+		Memory Map:
+			0-Some number (based on page size): Process ID, Page #
+			...
+			some number - some number: Free frame(s)
 
 
 // No processes can be added to memory partially. Either all of the process memory can
 	// be allocated at one time, or it waits for enough room.
+
+
+
+Variable names, data structures, and what their used for:
+
+MemoryManager.h:
+	MemoryManagerDesc:
+		struct
+		given values from file and then passed into constructor of memory Manager
+
+	MemoryManager:
+		class
+
+ProcessList processList:
+	typedef vector<Process>
+	this is the name of our InputQueue

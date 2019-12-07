@@ -26,8 +26,8 @@ class MemoryManager
 	// Runs each process in memory for one time unit.
 	void RunProcesses();
 
-	// Attempts to add a process to the memory 
-	// manager. If there isn't enough room, the 
+	// Attempts to add a process to the memory
+	// manager. If there isn't enough room, the
 	// process will not be added.
 	void AttemptAddProcess(Process& rProcess);
 
@@ -43,6 +43,7 @@ class MemoryManager
 	int mMaxPageSize;
 
 	// The list of processes running in memory.
+	// ProcessList is a typdef for vector<Process>
 	ProcessList mProcessesRunning;
 
 	// A pointer to the main timer.
