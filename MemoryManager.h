@@ -16,7 +16,7 @@ class Memory {
 
 public:
 
-	void Init(int pSize, int nFrames);
+	void Init(int pSize, int nFrames, int numProcs);
 	int pageSize;
 	int numberOfFrames;
 	std::vector<int> freeFrames;
@@ -25,7 +25,7 @@ public:
 	void printFreeFrames();
 	void printMemoryMap();
 	void printTakenFrames();
-	bool MemoryAvailable(int amountNeeded, vector<int> &passedV);
+	bool MemoryAvailable(int amountNeeded);
 
 	//array that will have as many spots as there are pages in memory
 	// each index indicates a page

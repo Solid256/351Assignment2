@@ -11,6 +11,7 @@
 // in a vector.
 void printInputQueue(std::vector<Process> IQ);
 void printInputQueue(std::vector<Process> IQ) {
+	std::cout << endl << "Line 14" << endl;
 	int size = IQ.size();
 	std::cout << "Input Queue: [ ";
 	for (int i = 0; i < size; i++) {
@@ -19,12 +20,16 @@ void printInputQueue(std::vector<Process> IQ) {
 	std::cout << "]";
 }
 
-bool ReadProcessListFile(ProcessList& rProcessList, std::string fileName);
+int ReadProcessListFile(ProcessList& rProcessList, std::string fileName);
 
-bool ReadProcessListFile(ProcessList& rProcessList, std::string fileName)
+int ReadProcessListFile(ProcessList& rProcessList, std::string fileName)
 {
 	// Checks if an error has occured.
 	bool success = true;
+
+
+	// The number of processes being read.
+	int numOfProcesses = -1;
 
 	// The in file for the process list.
 	std::ifstream inFile;
@@ -38,8 +43,7 @@ bool ReadProcessListFile(ProcessList& rProcessList, std::string fileName)
 
 	if(inFile.is_open())
 	{
-		// The number of processes being read.
-		int numOfProcesses = -1;
+
 
 		// The current process id.
 		int curPID = -1;
@@ -57,6 +61,7 @@ bool ReadProcessListFile(ProcessList& rProcessList, std::string fileName)
 		int memChunkVal = -1;
 
 		inFile >> numOfProcesses;
+		std:: cout << "\nInitial numOfProcesses: " << numOfProcesses;
 
 		for(int i = 0; i < numOfProcesses; i++)
 		{
@@ -130,8 +135,8 @@ bool ReadProcessListFile(ProcessList& rProcessList, std::string fileName)
 		std::cout << "ERROR: in-file for processes could not be opened!.\n";
 		success = false;
 	}
-
-	return success;
+	std::cout<<"\nReturning numOfProcesses: " << numOfProcesses << "\n";
+	return numOfProcesses;
 }
 
 int main()
@@ -148,13 +153,13 @@ int main()
 	ProcessList processList;
 
 	// Checks if an error has occured while reading the file.
-	bool success = true;
+	int success = true;
 
 	// First, create the processes needed to be executed by the OS simulator.
 	success = ReadProcessListFile(processList, "in1.txt");
 	// std::cout << "\nprocessList after ReadProcessListFile: " << processList.size()
 		// << "\n";
-
+	int numOfProcesses = success;
 	// If successful, continue.
 	if(success)
 	{
@@ -224,7 +229,7 @@ int main()
 		// Initialize the memory manager.
 		memoryManager.Init(desc);
 		Memory memory;
-		memory.Init(pageSize, memorySize);
+		memory.Init(pageSize, memorySize, numOfProcesses);
 		// std::cout << "\nprocessList after 2 " << processList.size();
 // ----------------------------------------------------------------------
 		// TODO A: For testing purposes only! Remove if not needed.

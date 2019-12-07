@@ -53,7 +53,7 @@ void MemoryManager::RunProcesses()
 	}
 }
 
-bool Memory::MemoryAvailable(int amountNeeded, std::vector<int> &passedV) {
+bool Memory::MemoryAvailable(int amountNeeded) {
 
 	// using this arithmetic to round up to nearest integer
 	int pagesNeeded = (amountNeeded + pageSize - 1) / pageSize;
@@ -67,21 +67,29 @@ bool Memory::MemoryAvailable(int amountNeeded, std::vector<int> &passedV) {
 	bool foundEnoughPages = false;
 	// we are going to iterate through the vector holding every page
 	// remember, in pagesFilledWithProcesses, if a value is != 0, it is not free
-	for (int i = 0; i < pagesFilledWithProcesses.size(); i++) {
+	std::cout << std:: endl << "pagesFilledWithProcesses size " << pagesFilledWithProcesses.size();
 
+	std::cout << endl << "Line 77" << endl;
+	for (int i = 0; i < pagesFilledWithProcesses.size(); i++) {
+		std::cout << std:: endl << "Step " << i + 1 << " in looping through pagesFilledWithProcesses";
 		// we are looking at a page. at index i
 		// if the page we are looking at is open, we need to go to the next one
 		// then the next one and so on until we have as many as we need
 		if (pagesFilledWithProcesses.at(i) == 0) {
 			for (int j = 0; j < pagesNeeded; j++) {
-				if (pagesFilledWithProcesses[i+j] != 0) break;
-				pagesThatWouldWork.at(j) = pagesFilledWithProcesses[i+j];
 				if (j == pagesNeeded - 1) {
 					foundEnoughPages = true;
 				}
+				if (pagesFilledWithProcesses.size() < i+j) {
+					foundEnoughPages = false;
+					if (pagesFilledWithProcesses.at(i+j) != 0) break;
+					pagesThatWouldWork.at(j) = pagesFilledWithProcesses.at(i+j);
+				}
+
 			}
 		}
 	}
+
 
 	return foundEnoughPages;
 	// else
@@ -129,11 +137,10 @@ void MemoryManager::AttemptAddProcess(Process& rProcess, Memory & mem)
 
 	m->printFreeFrames();
 
-	std::vector<int> checkVector;
 
-	canFit = m->MemoryAvailable(amountOfMemoryCurrentProcessNeeds, checkVector);
+	canFit = m->MemoryAvailable(amountOfMemoryCurrentProcessNeeds);
 
-	std::cout << "Canfit = " << canFit;
+
 	exit(0);
 
 
@@ -172,11 +179,12 @@ void MemoryManager::AttemptAddProcess(Process& rProcess, Memory & mem)
 // Getters:
 unsigned int MemoryManager::GetNumProcessesRunning()
 {
+	std::cout << endl << "Line 182" << endl;
 	return mProcessesRunning.size();
 }
 
 
-void Memory::Init(int pSize, int nFrames) {
+void Memory::Init(int pSize, int nFrames, int numProcs) {
 	pageSize = pSize;
 	numberOfFrames = nFrames;
 
@@ -185,14 +193,16 @@ void Memory::Init(int pSize, int nFrames) {
 		freeFrames.push_back(i);
 	}
 
+	std::cout << "numProcs " << numProcs;
 	// set every value of pagesFilledWithProcesses to zero to start with
-	for (int i = 0; i < pagesFilledWithProcesses.size(); i++) {
-		pagesFilledWithProcesses[i] = 0;
+	for (int i = 0; i < numProcs; i++) {
+		pagesFilledWithProcesses.push_back(0);
 	}
 }
 
 void Memory::printFreeFrames () {
 	// iterate through the freeFrames vector
+	std::cout << endl << "Line 205" << endl;
 	int size = freeFrames.size();
 	for (int i = 0; i < size; i++) {
 		// multiply the number by size of page
