@@ -2,6 +2,7 @@
 #include <vector>
 
 #include "MemoryManager.h"
+using namespace std;
 
 MemoryManager::MemoryManager() :
 	mMaxMemorySize(-1),
@@ -52,7 +53,45 @@ void MemoryManager::RunProcesses()
 	}
 }
 
-void MemoryManager::AttemptAddProcess(Process& rProcess)
+bool Memory::MemoryAvailable(int amountNeeded, std::vector<int> &passedV) {
+
+	// using this arithmetic to round up to nearest integer
+	int pagesNeeded = (amountNeeded + pageSize - 1) / pageSize;
+	std::cout << "\nNeed " << pagesNeeded << " pages \n";
+	//if the amount needed less than a page size
+		// find first available pageSize
+
+		//We are looking for n consecutive pages
+		// so we make an array that can hold n values
+	std::vector <int> pagesThatWouldWork;
+	bool foundEnoughPages = false;
+	// we are going to iterate through the vector holding every page
+	// remember, in pagesFilledWithProcesses, if a value is != 0, it is not free
+	for (int i = 0; i < pagesFilledWithProcesses.size(); i++) {
+
+		// we are looking at a page. at index i
+		// if the page we are looking at is open, we need to go to the next one
+		// then the next one and so on until we have as many as we need
+		if (pagesFilledWithProcesses.at(i) == 0) {
+			for (int j = 0; j < pagesNeeded; j++) {
+				if (pagesFilledWithProcesses[i+j] != 0) break;
+				pagesThatWouldWork.at(j) = pagesFilledWithProcesses[i+j];
+				if (j == pagesNeeded - 1) {
+					foundEnoughPages = true;
+				}
+			}
+		}
+	}
+
+	return foundEnoughPages;
+	// else
+		// divide amountNeeded / page size
+		// that his how many consecutive pages we needs
+		// i.e. we need that many vector indexes in a row
+		;
+}
+
+void MemoryManager::AttemptAddProcess(Process& rProcess, Memory & mem)
 {
 	// TODO A: Check if it can fit into memory first. Use the upper and lower
 	// bounds of the memory chunks in each process to determine where and if
@@ -60,7 +99,7 @@ void MemoryManager::AttemptAddProcess(Process& rProcess)
 
 	// int curLowerBound = -1;
 	// int curUpperBound = -1;
-	bool canFit = true;
+	bool canFit;
 
 	// std::cout << "We are in AttemptAddProcess(Process& rProcess). I am printing rProcess...\n";
 	// std::cout << "\nmProcessesRunning size: " << mProcessesRunning.size() << std::endl;
@@ -75,9 +114,27 @@ void MemoryManager::AttemptAddProcess(Process& rProcess)
 	MemoryChunks* pMemoryChunks = rProcess.GetMemoryChunksPtr();
 	// std::cout << "pMemoryChunks->size() " << pMemoryChunks->size() << std::endl;
 
+	int amountOfMemoryCurrentProcessNeeds = 0;
+	std::cout << "we are going to print the pmemorychunks\n" << "test size : " << pMemoryChunks->size() << std::endl;
+	for (int i = 0; i < pMemoryChunks->size(); i++) {
+		std::cout << "\n we are looking at memory chunk at index " << i << "\n";
+		std:: cout << "Memory chunk size: " << pMemoryChunks->at(i).size << "\n";
+		amountOfMemoryCurrentProcessNeeds += pMemoryChunks->at(i).size;
+	}
+	std::cout << "\nThis process needs " << amountOfMemoryCurrentProcessNeeds <<
+		" frames of Memory\n";
 
+	// Now we look in the memory to see if there are 500 frames available
+	Memory * m = &mem;
 
+	m->printFreeFrames();
 
+	std::vector<int> checkVector;
+
+	canFit = m->MemoryAvailable(amountOfMemoryCurrentProcessNeeds, checkVector);
+
+	std::cout << "Canfit = " << canFit;
+	exit(0);
 
 
 	// // iterate through each process that is running
@@ -100,7 +157,7 @@ void MemoryManager::AttemptAddProcess(Process& rProcess)
 	// 		// std::cout << "\nlower: " << lower << " upper: " << upper;
 	// 	}
 
-	}
+	// }
 
 	if(canFit)
 	{
@@ -127,6 +184,11 @@ void Memory::Init(int pSize, int nFrames) {
 	for (int i = 0; i < numPages; i++) {
 		freeFrames.push_back(i);
 	}
+
+	// set every value of pagesFilledWithProcesses to zero to start with
+	for (int i = 0; i < pagesFilledWithProcesses.size(); i++) {
+		pagesFilledWithProcesses[i] = 0;
+	}
 }
 
 void Memory::printFreeFrames () {
@@ -134,8 +196,7 @@ void Memory::printFreeFrames () {
 	int size = freeFrames.size();
 	for (int i = 0; i < size; i++) {
 		// multiply the number by size of page
-		std::cout << i * pageSize << "-" << i + pageSize << ": Free frame(s)";
+		std::cout << std::endl << i * pageSize << "-" << i*pageSize + pageSize - 1 << ": Free frame(s)";
 	}
-
 
 }

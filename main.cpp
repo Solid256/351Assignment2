@@ -265,7 +265,7 @@ int main()
 					// add the current process to the InputQueue
 					InputQueue.push_back(currentProcess);
 					printInputQueue(InputQueue);
-					memoryManager.AttemptAddProcess(currentProcess);
+					memoryManager.AttemptAddProcess(currentProcess, memory);
 
 				}
 			}

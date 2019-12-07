@@ -2,6 +2,38 @@
 
 #ifndef MEMORYMANAGER_H
 #define MEMORYMANAGER_H
+using namespace std;
+
+struct takenFrame {
+	int processNumber;
+	int pageNumberForProcess;
+	int lowerBound;
+	int upperBound;
+};
+
+
+class Memory {
+
+public:
+
+	void Init(int pSize, int nFrames);
+	int pageSize;
+	int numberOfFrames;
+	std::vector<int> freeFrames;
+	std::vector<takenFrame> takenFrames;
+
+	void printFreeFrames();
+	void printMemoryMap();
+	void printTakenFrames();
+	bool MemoryAvailable(int amountNeeded, vector<int> &passedV);
+
+	//array that will have as many spots as there are pages in memory
+	// each index indicates a page
+	// each value in the array is the PID of the process that takes up that page
+	// int pagesFilledWithProcesses [numberOfFrames / pageSize];
+	std::vector<int> pagesFilledWithProcesses;
+};
+
 
 struct MemoryManagerDesc
 {
@@ -29,7 +61,8 @@ class MemoryManager
 	// Attempts to add a process to the memory
 	// manager. If there isn't enough room, the
 	// process will not be added.
-	void AttemptAddProcess(Process& rProcess);
+	void AttemptAddProcess(Process& rProcess, Memory & mem);
+
 
 	// Getters:
 	unsigned int GetNumProcessesRunning();
@@ -50,26 +83,8 @@ class MemoryManager
 	int* mpTime;
 };
 
-struct takenFrame {
-	int processNumber;
-	int pageNumberForProcess;
-	int lowerBound;
-	int upperBound;
-};
 
-class Memory {
 
-public:
 
-	void Init(int pSize, int nFrames);
-	int pageSize;
-	int numberOfFrames;
-	std::vector<int> freeFrames;
-	std::vector<takenFrame> takenFrames;
-
-	void printFreeFrames();
-	void printMemoryMap();
-	void printTakenFrames();
-};
 
 #endif

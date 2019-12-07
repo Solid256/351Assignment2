@@ -35,9 +35,6 @@ struct ProcessDesc
 	// The memory chunks that make up the process.
 	MemoryChunks mMemoryChunks;
 
-	// int mAmntMemNeeded = -1;
-	//
-	// int mAmntPagesNeeded = -1;
 };
 
 class Process
@@ -80,9 +77,6 @@ private:
 	// The memory chunks that make up the process.
 	MemoryChunks mMemoryChunks;
 
-	//
-	// int aMN;
-	// int aPN;
 };
 
 // Typedefs:
