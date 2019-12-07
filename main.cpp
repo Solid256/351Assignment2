@@ -1,12 +1,24 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <vector>
 
 #include "Process.h"
 #include "MemoryManager.h"
 
+// std::vector<int> iq;
 // Reads the process list file and creates the process objects and stores them
 // in a vector.
+void printInputQueue(std::vector<Process> IQ);
+void printInputQueue(std::vector<Process> IQ) {
+	int size = IQ.size();
+	std::cout << "Input Queue: [ ";
+	for (int i = 0; i < size; i++) {
+		std::cout << IQ.at(i).GetPID() << " ";
+	}
+	std::cout << "]";
+}
+
 bool ReadProcessListFile(ProcessList& rProcessList, std::string fileName);
 
 bool ReadProcessListFile(ProcessList& rProcessList, std::string fileName)
@@ -93,6 +105,7 @@ bool ReadProcessListFile(ProcessList& rProcessList, std::string fileName)
 			// in this function, the original ProcessList that was passed is changed
 			// outside of this scope as well
 			rProcessList.push_back(curProcess);
+			// std::cout<< "rProcessList.size() " << rProcessList.size();
 		}
 
 		inFile.close();
@@ -124,6 +137,8 @@ int main()
 	// program
 	MemoryManager memoryManager;
 
+	std::vector<Process> InputQueue;
+
 	// The list of processes being read from the in file.
 	// ProcessList is a typdef of vector<Process>
 	ProcessList processList;
@@ -133,6 +148,8 @@ int main()
 
 	// First, create the processes needed to be executed by the OS simulator.
 	success = ReadProcessListFile(processList, "in1.txt");
+	// std::cout << "\nprocessList after ReadProcessListFile: " << processList.size()
+		// << "\n";
 
 	// If successful, continue.
 	if(success)
@@ -187,7 +204,7 @@ int main()
 					break;
 			}
 		}while(!validInput);
-
+		std::cout << "\nprocessList after 1 " << processList.size();
 		// The time elapsed in fake time units.
 		// this is our virtual clock
 		int time = 0;
@@ -202,42 +219,50 @@ int main()
 
 		// Initialize the memory manager.
 		memoryManager.Init(desc);
-
+		Memory memory;
+		memory.Init(pageSize, memorySize);
+		std::cout << "\nprocessList after 2 " << processList.size();
 // ----------------------------------------------------------------------
 		// TODO A: For testing purposes only! Remove if not needed.
-		while(processList.size() > 0)
-		{
-			// A reference to the current process being
-			// added to the memory manager.
-			// the back() function returns the object at the end of the vector
-			Process& rProcess = processList.back();
-
-			// remove this process from the processList
-			processList.pop_back();
-			memoryManager.AttemptAddProcess(rProcess);
-		}
-		// ----------------------------------------------------------------------
+		// while(processList.size() > 0)
+		// {
+		// 	// A reference to the current process being
+		// 	// added to the memory manager.
+		// 	// the back() function returns the object at the end of the vector
+		// 	Process& rProcess = processList.back();
+		//
+		// 	// remove this process from the processList
+		// 	processList.pop_back();
+		// 	memoryManager.AttemptAddProcess(rProcess);
+		// }
+// ----------------------------------------------------------------------
 
 		// The main loop for the OS simulator.
 		//while there are processes in the Input Queue or Processes are still running
+		std::cout << "Process list size3452dd " << processList.size() << "\n";
 		while(processList.size() > 0 ||
 			memoryManager.GetNumProcessesRunning() > 0)
 		{
 			++time;
 			memoryManager.RunProcesses();
 
-			// TODO A: Determine if a process is ready to be
-			// added to the memory manager based on its
-			// starting time.
-
             // go through process list
 			for (int i = 0; i < processList.size(); i++) {
 				Process currentProcess = processList.at(i);
 				int startingTime = currentProcess.GetArrivalTime();
 
+			// if process startingTime is == time, then it is arriving
 				if (time == startingTime) {
-					// process should be added?
+					// a new process has arrived
+					int newProcessID = currentProcess.GetPID();
+					std::cout << "\nt = " << time << ": " << "Process " << newProcessID
+						<< " arrives";
+
+					// add the current process to the InputQueue
+					InputQueue.push_back(currentProcess);
+					printInputQueue(InputQueue);
 					memoryManager.AttemptAddProcess(currentProcess);
+
 				}
 			}
 		}
@@ -249,7 +274,7 @@ int main()
 	for (int i = 0; i < processList.size(); i++ ) {
 
 		Process currentProcess = processList.at(i);
-		currentProcess.printProcess();
+		// currentProcess.printProcess();
 		totalTime += currentProcess.GetExecutionTime();
 
 	}
@@ -259,8 +284,23 @@ int main()
 
 	}
 	else {
-		printf(stderr, "File was not processed correctly");
+		fprintf(stderr, "File was not processed correctly");
 	}
 
 	return 0;
 }
+
+// class MemoryMap{
+//
+// 	int sizeOfAPage = -1;
+// 	int totalPossibleFrames = -1;
+// 	int numberOfPages = -1;
+//
+// 	//will look something like 0, 400, 800... if the sizeOfAPage is 400 for ex
+// 	//the number will indicate the starting point of open page
+// 	int allPages [numberOfPages];
+// 	vector<int> pagesThatAreTaken;
+//
+//
+//
+// }

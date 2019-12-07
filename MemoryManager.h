@@ -50,4 +50,26 @@ class MemoryManager
 	int* mpTime;
 };
 
+struct takenFrame {
+	int processNumber;
+	int pageNumberForProcess;
+	int lowerBound;
+	int upperBound;
+};
+
+class Memory {
+
+public:
+
+	void Init(int pSize, int nFrames);
+	int pageSize;
+	int numberOfFrames;
+	std::vector<int> freeFrames;
+	std::vector<takenFrame> takenFrames;
+
+	void printFreeFrames();
+	void printMemoryMap();
+	void printTakenFrames();
+};
+
 #endif

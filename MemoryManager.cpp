@@ -46,7 +46,7 @@ void MemoryManager::RunProcesses()
 			mProcessesRunning.erase(mProcessesRunning.begin() + i);
 
 			// now that we removed the process, the next process that was at the next
-			// index moved up one spot, so we need to make i go back 
+			// index moved up one spot, so we need to make i go back
 			--i;
 		}
 	}
@@ -62,18 +62,18 @@ void MemoryManager::AttemptAddProcess(Process& rProcess)
 	int curUpperBound = -1;
 	bool canFit = true;
 
-	std::cout << "We are in AttemptAddProcess(Process& rProcess). I am printing rProcess...\n";
-	std::cout << "\nmProcessesRunning size: " << mProcessesRunning.size() << std::endl;
-	for (int i = 0; i < mProcessesRunning.size(); i++) {
-		std::cout << "\nPrinting process " << i << " out of " << mProcessesRunning.size();
-		mProcessesRunning.at(i).printProcess();
-	}
+	// std::cout << "We are in AttemptAddProcess(Process& rProcess). I am printing rProcess...\n";
+	// std::cout << "\nmProcessesRunning size: " << mProcessesRunning.size() << std::endl;
+	// for (int i = 0; i < mProcessesRunning.size(); i++) {
+	// 	std::cout << "\nPrinting process " << i << " out of " << mProcessesRunning.size();
+	// 	mProcessesRunning.at(i).printProcess();
+	// }
 
 
 
-	// The memory chunks of the current process.
+	// The memory chu nks of the current process.
 	MemoryChunks* pMemoryChunks = rProcess.GetMemoryChunksPtr();
-	std::cout << "pMemoryChunks->size() " << pMemoryChunks->size() << std::endl;
+	// std::cout << "pMemoryChunks->size() " << pMemoryChunks->size() << std::endl;
 
 	//vector that will hold upper and lower bounds
 	// in the form upper, lower, upper, lower, etc...
@@ -82,20 +82,22 @@ void MemoryManager::AttemptAddProcess(Process& rProcess)
 
 	// iterate through each process that is running
 	for (int i = 0; i < mProcessesRunning.size(); i++) {
-		std::cout << "\n\nIterating through a new running process. Printing process: \n";
+
+		// std::cout << "\n\nIterating through a new running process. Printing process: \n";
 		Process currentProcess =  mProcessesRunning.at(i);
-		currentProcess.printProcess();
+		// currentProcess.printProcess();
+
 		// iterate through currentProcess' memory chunks vector
 		MemoryChunks* curProcMemChunksVecPtr = currentProcess.GetMemoryChunksPtr();
 		int memChunksSize = curProcMemChunksVecPtr->size();
-		std::cout << "\nmemChunksSize: " << memChunksSize << std::endl;
+		// std::cout << "\nmemChunksSize: " << memChunksSize << std::endl;
 		for(int j = 0; j < memChunksSize; j ++) {
-			std::cout << "\nNow we are dealing with individual memory chunk";
+			// std::cout << "\nNow we are dealing with individual memory chunk";
 			// we are now dealing with individual memory chunk
 			MemoryChunk currentMemoryChunk = curProcMemChunksVecPtr->at(j);
 			int lower = currentMemoryChunk.lowerBound;
 			int upper = currentMemoryChunk.upperBound;
-			std::cout << "\nlower: " << lower << " upper: " << upper;
+			// std::cout << "\nlower: " << lower << " upper: " << upper;
 		}
 
 	}
@@ -104,7 +106,7 @@ void MemoryManager::AttemptAddProcess(Process& rProcess)
 	{
 		// Add the process to the processes running list.
 		mProcessesRunning.push_back(rProcess);
-		rProcess.
+
 
 		// TODO A: Display the memory map just like in the examples.
 	}
@@ -114,4 +116,26 @@ void MemoryManager::AttemptAddProcess(Process& rProcess)
 unsigned int MemoryManager::GetNumProcessesRunning()
 {
 	return mProcessesRunning.size();
+}
+
+
+void Memory::Init(int pSize, int nFrames) {
+	pageSize = pSize;
+	numberOfFrames = nFrames;
+
+	int numPages = numberOfFrames / pageSize;
+	for (int i = 0; i < numPages; i++) {
+		freeFrames.push_back(i);
+	}
+}
+
+void Memory::printFreeFrames () {
+	// iterate through the freeFrames vector
+	int size = freeFrames.size();
+	for (int i = 0; i < size; i++) {
+		// multiply the number by size of page
+		std::cout << i * pageSize << "-" << i + pageSize << ": Free frame(s)";
+	}
+
+
 }

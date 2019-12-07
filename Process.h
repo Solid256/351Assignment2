@@ -25,7 +25,7 @@ struct ProcessDesc
 {
 	// The process ID.
 	int mPID = -1;
-	
+
 	// The time it takes for the program to enter the ready queue.
 	int mArrivalTime = -1;
 
@@ -52,6 +52,8 @@ public:
 	//Used for debugging
 	void printProcess();
 
+	// void setMemoryChunks()
+
 	// Getters:
 	int GetPID();
 	int GetArrivalTime();
@@ -62,7 +64,7 @@ public:
 private:
 	// The process ID.
 	int mPID;
-	
+
 	// The time it takes for the program to enter the ready queue.
 	int mArrivalTime;
 
@@ -75,5 +77,7 @@ private:
 
 // Typedefs:
 typedef std::vector<Process> ProcessList;
+
+
 
 #endif

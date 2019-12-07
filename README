@@ -32,11 +32,7 @@ If the virtual clock time is the same as the Arrival of a process(es)
 
 If a process is completed OR a new process arrives
 	Print
-<<<<<<< HEAD
 		t = (current time of virtual clock): Process (#) arrives
-=======
-		t = (current time of virtual clock): Process (#) arrives 
->>>>>>> 541c9a244b37da7eeb0ba51f0b7b66ee0b4fb482
 	If it is a new process arriving
 		the process will be added to the Input Queue
 	If a process is completed
@@ -51,11 +47,7 @@ If a process is completed OR a new process arrives
 	If it cannot
 		Memory Manager will iterate through the Input Queue and see if there are
 				any processes that CAN fit
-<<<<<<< HEAD
 	Input Queue is printed in the form
-=======
-	Input Queue is printed in the form 
->>>>>>> 541c9a244b37da7eeb0ba51f0b7b66ee0b4fb482
 		Input Queue [1 2 ...] // the 1 and the 2 are the process IDs
 	Memory Map is printed in the form
 		Memory Map:
@@ -64,7 +56,6 @@ If a process is completed OR a new process arrives
 			some number - some number: Free frame(s)
 
 
-<<<<<<< HEAD
 // No processes can be added to memory partially. Either all of the process memory can
 	// be allocated at one time, or it waits for enough room.
 
@@ -82,13 +73,21 @@ MemoryManager.h:
 
 ProcessList processList:
 	typedef vector<Process>
-	this is the name of our InputQueue
-=======
+	this is used to hold on to the processes that came in
+	it is not our input queue
+	our input queue is separate and will be added to when a process "arrives"
+	processList already has every process in it
 
 
 
 
 
-// No processes can be added to memory partially. Either all of the process memory can
-	// be allocated at one time, or it waits for enough room.
->>>>>>> 541c9a244b37da7eeb0ba51f0b7b66ee0b4fb482
+
+
+
+
+	current notes to self:
+	leaving off on main.cpp line 241
+	we just added print process that arrives
+	now we need to add process to Input Queue and print that
+	we already declared Input Queue as vector<Process> at top of file globally
