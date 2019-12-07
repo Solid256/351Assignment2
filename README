@@ -12,3 +12,35 @@ TODO
 
 Anything Special about the Submission:
 TODO
+
+
+
+
+-----------------------------------------------------------------
+
+Logic:
+There is a virtual clock that is an integer and incrememnted by 1 every loop
+A process arrives and is put into the Input Queue
+Input queue is ordered by Arrival Time
+If a process completes OR a new process arrives, 
+	Memory Manager is used
+
+If the virtual clock time is the same as the Arrival of a process(es)
+	Memor Manager will attempt to move it to memory
+
+If a process is completed
+	Memory Manager will show that the process' memory region(s) are now available
+	Memory Manager will check if head of Input Queue can go to memory
+	If it can
+		Memory Manager will allocate the memory and update the input queue 
+			If Memory Manager has to choose between lower end and upper end of a region (hole)
+				it will always choose the lower end
+		Memory Manager will check if the head of Input Queue can go into memory
+			If it can, repeat previous 3 steps
+	If it cannot
+		Memory Manager will iterate through the Input Queue and see if there are 
+				any processes that CAN fit
+
+// No processes can be added to memory partially. Either all of the process memory can
+	// be allocated at one time, or it waits for enough room.
+		
