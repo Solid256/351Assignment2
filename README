@@ -58,36 +58,3 @@ If a process is completed OR a new process arrives
 
 // No processes can be added to memory partially. Either all of the process memory can
 	// be allocated at one time, or it waits for enough room.
-
-
-
-Variable names, data structures, and what their used for:
-
-MemoryManager.h:
-	MemoryManagerDesc:
-		struct
-		given values from file and then passed into constructor of memory Manager
-
-	MemoryManager:
-		class
-
-ProcessList processList:
-	typedef vector<Process>
-	this is used to hold on to the processes that came in
-	it is not our input queue
-	our input queue is separate and will be added to when a process "arrives"
-	processList already has every process in it
-
-
-
-
-
-
-
-
-
-	current notes to self:
-	leaving off on main.cpp line 241
-	we just added print process that arrives
-	now we need to add process to Input Queue and print that
-	we already declared Input Queue as vector<Process> at top of file globally
