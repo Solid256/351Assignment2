@@ -1,4 +1,4 @@
-Section #: 03 
+Section #: 03
 Name: Connor Gresko         Email: ConnorGresko@csu.fullerton.edu
 Name: Vincent Deaugustine   Email: VinnieD44@csu.fullerton.edu
 
@@ -7,7 +7,7 @@ Programming Language Used: C++
 How to execute the program(s):
 TODO
 
-Extra credit has been implemented: 
+Extra credit has been implemented:
 TODO
 
 Anything Special about the Submission:
@@ -19,28 +19,47 @@ TODO
 -----------------------------------------------------------------
 
 Logic:
-There is a virtual clock that is an integer and incrememnted by 1 every loop
+
+Main
+There is a virtual clock that is an integer and incremented by 1 every loop
 A process arrives and is put into the Input Queue
 Input queue is ordered by Arrival Time
-If a process completes OR a new process arrives, 
+If a process completes OR a new process arrives,
 	Memory Manager is used
 
 If the virtual clock time is the same as the Arrival of a process(es)
-	Memor Manager will attempt to move it to memory
+	Memory Manager will attempt to move it to memory
 
-If a process is completed
-	Memory Manager will show that the process' memory region(s) are now available
+If a process is completed OR a new process arrives
+	Print
+		t = (current time of virtual clock): Process (#) arrives 
+	If it is a new process arriving
+		the process will be added to the Input Queue
+	If a process is completed
+		Memory Manager will show that the process' memory region(s) that it was using are now available
 	Memory Manager will check if head of Input Queue can go to memory
 	If it can
-		Memory Manager will allocate the memory and update the input queue 
+		Memory Manager will allocate the memory and update the Input Queue
 			If Memory Manager has to choose between lower end and upper end of a region (hole)
 				it will always choose the lower end
 		Memory Manager will check if the head of Input Queue can go into memory
 			If it can, repeat previous 3 steps
 	If it cannot
-		Memory Manager will iterate through the Input Queue and see if there are 
+		Memory Manager will iterate through the Input Queue and see if there are
 				any processes that CAN fit
+	Input Queue is printed in the form 
+		Input Queue [1 2 ...] // the 1 and the 2 are the process IDs
+	Memory Map is printed in the form
+		Memory Map:
+			0-Some number (based on page size): Process ID, Page #
+			...
+			some number - some number: Free frame(s)
+
+
+
+
+
+
 
 // No processes can be added to memory partially. Either all of the process memory can
 	// be allocated at one time, or it waits for enough room.
-		
