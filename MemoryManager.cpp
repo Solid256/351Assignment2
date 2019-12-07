@@ -20,22 +20,33 @@ void MemoryManager::Init(MemoryManagerDesc& rDesc)
 
 void MemoryManager::RunProcesses()
 {
+	// Each process has a variable called Lifetime that keeps track of how
+	// long it should run.
+	// To simulate a process running, every time we go through a loop, we subtract
+	// the amount of time remaining in that process' Lifetime
 	// The current process being executed.
 	Process* pCurProcess = nullptr;
 
 	// Execute each running process by one time unit.
 	for(unsigned int i = 0; i < mProcessesRunning.size(); i++)
 	{
+		// set the current process as the process at the current index of the
+		// vector that contains all running processes
 		pCurProcess = &mProcessesRunning[i];
 		pCurProcess->DecrementExecutionTime();
 
 		// Remove the process if it has no more time left.
 		if(pCurProcess->GetExecutionTime() == 0)
 		{
-			std::cout << "Process " << pCurProcess->GetPID() 
+			std::cout << "Process " << pCurProcess->GetPID()
 				<< " completed!\n";
 
+			// the process is no longer running so we need to remove it from the
+			// running processes vector
 			mProcessesRunning.erase(mProcessesRunning.begin() + i);
+
+			// now that we removed the process, the next process that was at the next
+			// index moved up one spot, so we need to make i go back 
 			--i;
 		}
 	}
@@ -43,8 +54,8 @@ void MemoryManager::RunProcesses()
 
 void MemoryManager::AttemptAddProcess(Process& rProcess)
 {
-	// TODO A: Check if it can fit into memory first. Use the upper and lower 
-	// bounds of the memory chunks in each process to determine where and if 
+	// TODO A: Check if it can fit into memory first. Use the upper and lower
+	// bounds of the memory chunks in each process to determine where and if
 	// the new processes and its memory chunks can fit.
 
 	int curLowerBound = -1;
@@ -68,7 +79,7 @@ void MemoryManager::AttemptAddProcess(Process& rProcess)
 	// in the form upper, lower, upper, lower, etc...
 	std::vector<int> bounds;
 
-	
+
 	// iterate through each process that is running
 	for (int i = 0; i < mProcessesRunning.size(); i++) {
 		std::cout << "\n\nIterating through a new running process. Printing process: \n";
@@ -86,9 +97,9 @@ void MemoryManager::AttemptAddProcess(Process& rProcess)
 			int upper = currentMemoryChunk.upperBound;
 			std::cout << "\nlower: " << lower << " upper: " << upper;
 		}
-		
+
 	}
-    
+
 	if(canFit)
 	{
 		// Add the process to the processes running list.
