@@ -97,7 +97,7 @@ bool Memory::MemoryAvailable(Process processPassed, int amountNeeded, std::vecto
 	// std::cout << std:: endl << "pagesFilledWithProcesses size " << pagesFilledWithProcesses.size();
 
 	for (int i = 0; i < pagesFilledWithProcesses.size(); i++) {
-		std::cout << std:: endl << "Step " << i + 1 << " in looping through pagesFilledWithProcesses";
+		// std::cout << std:: endl << "Step " << i + 1 << " in looping through pagesFilledWithProcesses";
 		// we are looking at a page. at index i
 		// if the page we are looking at is open, we need to go to the next one
 		// then the next one and so on until we have as many as we need
@@ -121,7 +121,7 @@ bool Memory::MemoryAvailable(Process processPassed, int amountNeeded, std::vecto
 		int checkval = lastIndexGood - i;
 		if (checkval < 0) {
 			std::cout << "\nERROR! lastIndexGood - i was negative. failure!\n";
-			exit(0);
+
 		}
 		 else {
 			 pagesThatWouldWork.push_back(checkval);
@@ -239,6 +239,74 @@ void Memory:: updatePFWP (std::vector <int> passedVector){
 
 		}
 	}
+}
+
+void printIntVector (std::vector <int> vec) {
+
+	for (int i = 0 ; i < vec.size() ; i ++) {
+		std::cout << "\n" << vec.at(i) << "\n";
+	}
+}
+
+
+void Memory:: printMemoryMap(){
+	//this is just for testing take it out later
+	// if (pagesFilledWithProcesses.size() != numPages) {
+	// 	cout << "Error, pagesFilledWithProcesses is not size numberOfPages it has size " << pagesFilledWithProcesses.size();
+	// 	exit(0);
+	// }
+
+	// std::cout << "\nPrinting pagesFilledWithProcesses check\n";
+	// printIntVector(pagesFilledWithProcesses);
+
+
+	std::cout << "\nMemory Map:";
+	int check = 0;
+	int nextProccesID = 0;
+	int repeated = 0;
+
+	for (int i = 0; i < pagesFilledWithProcesses.size(); i++) {
+
+
+
+		int currentProcessID = pagesFilledWithProcesses.at(i);
+		int previousID = -1;
+		if (i > 0) previousID = pagesFilledWithProcesses.at(i-1);
+		if (currentProcessID == 0) {
+			std::cout << "\n" << i * pageSize << "-" << i * pageSize + pageSize - 1
+				<< ": Free frame(s)\n";
+		} else {
+				if (previousID == currentProcessID) {
+					repeated += 1;
+				}
+				else {
+					repeated = 0;
+				}
+				// cout << endl << "i: " << i << endl << "repeated: " << repeated << endl;
+			std::cout << "\n" << i * pageSize << "-" << (i * pageSize) + (pageSize - 1)
+			 	<< ": Process " << currentProcessID << ", Page " << 1 +  (1 * repeated) << "\n";
+
+		// 	//count how many pages in advance are for this process
+		// 	int pageCounter = 1;
+		// 	int checkCounter = 1;
+		// 	nextProccesID = pagesFilledWithProcesses.at(i+checkCounter);
+		// 	while (nextProccesID == currentProcessID) {
+		// 		checkCounter += 1;
+		// 		nextProccesID = pagesFilledWithProcesses.at(i+checkCounter);
+		// 		pageCounter += 1 ;
+		// 	}
+		// 	for (int j = 0; j < pageCounter; j++) {
+		// 		std::cout << "\n" << j * pageSize << "-" << j * pageSize + pageSize - 1
+		// 			<< ": Process " << currentProcessID << ", Page " << j + 1 << "\n";
+		// 	}
+		//
+		}
+
+	}
+	//Go through pages filled with Processes
+	// if the page has a 0 value, print (free frames)
+	// if it has a value other than zero. get that value
+	// print Process #, Page (whatever page it is)
 }
 
 // Getters:

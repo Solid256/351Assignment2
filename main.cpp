@@ -287,6 +287,8 @@ int main()
 							for (int i = 0; i < InputQueue.size(); i++) {
 								std::cout << InputQueue.at(i).GetPID() << " ";
 							}
+							memory.printMemoryMap();
+							
 
 
 					} else {
