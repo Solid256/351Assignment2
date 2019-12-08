@@ -19,7 +19,7 @@ void MemoryManager::Init(MemoryManagerDesc& rDesc)
 	mpTime = rDesc.pTime;
 }
 
-void MemoryManager::RunProcesses(std::vector<Process> &InputQueuePassed)
+void MemoryManager::RunProcesses(std::vector<Process> &InputQueuePassed, std::vector <Process> &processList)
 {
 
 	// std::cout<< "\nEntering RunProcesses";
@@ -50,6 +50,23 @@ void MemoryManager::RunProcesses(std::vector<Process> &InputQueuePassed)
 			std::cout << "Process " << pCurProcess->GetPID()
 				<< " completed!\n";
 
+				int index;
+			for (int pIn = 0; i < processList.size(); i++) {
+				if (processList.at(pIn).GetPID() == pCurProcess->GetPID()) {
+					// cout << "\nfound the index we were lookin for\n" <<
+					// processList.at(pIn).GetPID() << "==" << pCurProcess->GetPID() << endl;
+					index = pIn;
+					processList.erase(processList.begin() + index);
+					// cout << "Process list after: \n";
+					// printProcessList(processList);
+					break;
+				}
+				else {
+					cout << "\nCouldn't find a match! Looking for " << pCurProcess->GetPID() <<
+					" but found " << processList.at(pIn).GetPID() << endl;
+				}
+			}
+
 			// the process is no longer running so we need to remove it from the
 			// running processes vector
 
@@ -68,6 +85,8 @@ void MemoryManager::RunProcesses(std::vector<Process> &InputQueuePassed)
 			// for (int i = 0; i < InputQueuePassed.size(); i++) {
 			// 	std::cout << InputQueuePassed.at(i).GetPID() << " ";
 			// }
+
+
 
 			mProcessesRunning.erase(mProcessesRunning.begin() + i);
 			// now that we removed the process, the next process that was at the next
@@ -182,7 +201,7 @@ bool MemoryManager::AttemptAddProcess(Process& rProcess, Memory & mem)
 	// Now we look in the memory to see if there are 500 frames available
 	Memory * m = &mem;
 
-	m->printFreeFrames();
+	// m->printFreeFrames();
 
 	std::vector <int> freeFramesVector;
 

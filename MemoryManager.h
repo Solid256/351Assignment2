@@ -33,6 +33,7 @@ public:
 	// int pagesFilledWithProcesses [numberOfFrames / pageSize];
 	std::vector<int> pagesFilledWithProcesses;
 	void updatePFWP (std::vector <int> passedVector);
+	std::vector<int> getEmptyIndexesOfPFWP (std::vector<int> passed);
 };
 
 
@@ -57,7 +58,7 @@ class MemoryManager
 	void Init(MemoryManagerDesc& rDesc);
 
 	// Runs each process in memory for one time unit.
-	void RunProcesses(std::vector<Process> & InputQueuePassed);
+	void RunProcesses(std::vector<Process> & InputQueuePassed, std::vector<Process> & processList);
 
 	// Attempts to add a process to the memory
 	// manager. If there isn't enough room, the

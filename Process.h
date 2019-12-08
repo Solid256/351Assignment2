@@ -62,6 +62,7 @@ public:
 	MemoryChunks* GetMemoryChunksPtr();
 	int GetAmntMemNeeded();
 	int GetAmntPagesNeeded();
+	std::vector <int> pagesUsing;
 
 	// Variables:
 private:

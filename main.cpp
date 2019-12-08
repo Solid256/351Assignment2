@@ -247,11 +247,12 @@ int main()
 
 		// The main loop for the OS simulator.
 		//while there are processes in the Input Queue or Processes are still running
+		int mainLoopCounter = 0;
 		while(processList.size() > 0 ||
 			memoryManager.GetNumProcessesRunning() > 0)
 		{
-
-			memoryManager.RunProcesses(InputQueue);
+			mainLoopCounter += 1;
+			memoryManager.RunProcesses(InputQueue, processList);
 
             // go through process list
 			for (int i = 0; i < processList.size(); i++) {
@@ -273,22 +274,22 @@ int main()
 							" moved to memory\n";
 
 							int removeThisID = currentProcess.GetPID();
-							std::cout << "\nRemoving process with ID: " << removeThisID << " from InputQueue\n";
-							std::cout << "\nInput Queue before: \n";
-							for (int i = 0; i < InputQueue.size(); i++) {
-								std::cout << InputQueue.at(i).GetPID() << " ";
-							}
+							// std::cout << "\nRemoving process with ID: " << removeThisID << " from InputQueue\n";
+							// std::cout << "\nInput Queue before: \n";
+							// for (int i = 0; i < InputQueue.size(); i++) {
+							// 	std::cout << InputQueue.at(i).GetPID() << " ";
+							// }
 							for (int i = 0; i < InputQueue.size(); i++) {
 								if (InputQueue.at(i).GetPID() == removeThisID) {
 									InputQueue.erase(InputQueue.begin() + i);
 								}
 							}
-							std::cout << "\nInput Queue after: \n";
-							for (int i = 0; i < InputQueue.size(); i++) {
-								std::cout << InputQueue.at(i).GetPID() << " ";
-							}
+							// std::cout << "\nInput Queue after: \n";
+							// for (int i = 0; i < InputQueue.size(); i++) {
+							// 	std::cout << InputQueue.at(i).GetPID() << " ";
+							// }
 							memory.printMemoryMap();
-							
+
 
 
 					} else {
@@ -302,6 +303,12 @@ int main()
 
 			}
 			++time;
+			if (mainLoopCounter == 10000) {
+				cout << "\nwent over 1000000 times\n";
+				cout << "\nnum processes running " << memoryManager.GetNumProcessesRunning();
+				cout << "\nnum of processes in process list " << processList.size();
+				exit(0);
+			}
 		}
 
 	// TODO: Compute the Average Turnaround Time.
