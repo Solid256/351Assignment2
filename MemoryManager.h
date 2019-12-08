@@ -25,13 +25,14 @@ public:
 	void printFreeFrames();
 	void printMemoryMap();
 	void printTakenFrames();
-	bool MemoryAvailable(int amountNeeded);
+	bool MemoryAvailable(Process processPassed, int amountNeeded, std::vector<int> &passedVector);
 
 	//array that will have as many spots as there are pages in memory
 	// each index indicates a page
 	// each value in the array is the PID of the process that takes up that page
 	// int pagesFilledWithProcesses [numberOfFrames / pageSize];
 	std::vector<int> pagesFilledWithProcesses;
+	void updatePFWP (std::vector <int> passedVector);
 };
 
 
@@ -56,7 +57,7 @@ class MemoryManager
 	void Init(MemoryManagerDesc& rDesc);
 
 	// Runs each process in memory for one time unit.
-	void RunProcesses();
+	void RunProcesses(std::vector<Process> & InputQueuePassed);
 
 	// Attempts to add a process to the memory
 	// manager. If there isn't enough room, the

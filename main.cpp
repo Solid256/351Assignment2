@@ -11,7 +11,6 @@
 // in a vector.
 void printInputQueue(std::vector<Process> IQ);
 void printInputQueue(std::vector<Process> IQ) {
-	std::cout << endl << "Line 14" << endl;
 	int size = IQ.size();
 	std::cout << "Input Queue: [ ";
 	for (int i = 0; i < size; i++) {
@@ -248,12 +247,11 @@ int main()
 
 		// The main loop for the OS simulator.
 		//while there are processes in the Input Queue or Processes are still running
-		// std::cout << "Process list size3452dd " << processList.size() << "\n";
 		while(processList.size() > 0 ||
 			memoryManager.GetNumProcessesRunning() > 0)
 		{
 
-			memoryManager.RunProcesses();
+			memoryManager.RunProcesses(InputQueue);
 
             // go through process list
 			for (int i = 0; i < processList.size(); i++) {
@@ -273,6 +271,9 @@ int main()
 					memoryManager.AttemptAddProcess(currentProcess, memory);
 
 				}
+
+				// if process completes
+
 			}
 			++time;
 		}
