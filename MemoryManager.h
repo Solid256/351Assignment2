@@ -62,7 +62,7 @@ class MemoryManager
 	// Attempts to add a process to the memory
 	// manager. If there isn't enough room, the
 	// process will not be added.
-	void AttemptAddProcess(Process& rProcess, Memory & mem);
+	bool AttemptAddProcess(Process& rProcess, Memory & mem);
 
 
 	// Getters:

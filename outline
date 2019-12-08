@@ -17,6 +17,8 @@ If a process completes OR a new process arrives, Memory Manager is used
   DecrementExecutionTime()
     Called during MemoryManager.RunProcesses()
       which is called at beginning of main loop
+      process is successully removed from Input Queue in RunProcess at almost
+        the very end of the function
 
 If the virtual clock time is the same as the Arrival of a process(es)
 	Memory Manager will attempt to move it to memory

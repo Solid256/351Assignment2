@@ -22,7 +22,7 @@ void MemoryManager::Init(MemoryManagerDesc& rDesc)
 void MemoryManager::RunProcesses(std::vector<Process> &InputQueuePassed)
 {
 
-	std::cout<< "\nEntering RunProcesses";
+	// std::cout<< "\nEntering RunProcesses";
 	// Each process has a variable called Lifetime that keeps track of how
 	// long it should run.
 	// To simulate a process running, every time we go through a loop, we subtract
@@ -52,22 +52,24 @@ void MemoryManager::RunProcesses(std::vector<Process> &InputQueuePassed)
 
 			// the process is no longer running so we need to remove it from the
 			// running processes vector
+
+			// int removeThisID = pCurProcess->GetPID();
+			// std::cout << "\nRemoving process with ID: " << removeThisID << " from InputQueue\n";
+			// std::cout << "\nInput Queue before: \n";
+			// for (int i = 0; i < InputQueuePassed.size(); i++) {
+			// 	std::cout << InputQueuePassed.at(i).GetPID() << " ";
+			// }
+			// for (int i = 0; i < InputQueuePassed.size(); i++) {
+			// 	if (InputQueuePassed.at(i).GetPID() == removeThisID) {
+			// 		InputQueuePassed.erase(InputQueuePassed.begin() + i);
+			// 	}
+			// }
+			// std::cout << "\nInput Queue after: \n";
+			// for (int i = 0; i < InputQueuePassed.size(); i++) {
+			// 	std::cout << InputQueuePassed.at(i).GetPID() << " ";
+			// }
+
 			mProcessesRunning.erase(mProcessesRunning.begin() + i);
-			int removeThisID = pCurProcess->GetPID();
-			std::cout << "\nRemoving process with ID: " << removeThisID << " from InputQueue\n";
-			std::cout << "\nInput Queue before: \n";
-			for (int i = 0; i < InputQueuePassed.size(); i++) {
-				std::cout << InputQueuePassed.at(i).GetPID();
-			}
-			for (int i = 0; i < InputQueuePassed.size(); i++) {
-				if (InputQueuePassed.at(i).GetPID() == removeThisID) {
-					InputQueuePassed.erase(InputQueuePassed.begin() + i);
-				}
-			}
-			std::cout << "\nInput Queue after: \n";
-			for (int i = 0; i < InputQueuePassed.size(); i++) {
-				std::cout << InputQueuePassed.at(i).GetPID();
-			}
 			// now that we removed the process, the next process that was at the next
 			// index moved up one spot, so we need to make i go back
 			--i;
@@ -85,14 +87,14 @@ bool Memory::MemoryAvailable(Process processPassed, int amountNeeded, std::vecto
 
 		//We are looking for n consecutive pages
 		// so we make an array that can hold n values
-	std::vector <int> pagesThatWouldWork (pagesNeeded, 0);
-
+	// std::vector <int> pagesThatWouldWork (pagesNeeded, 0);
+  std::vector <int> pagesThatWouldWork;
 	bool foundEnoughPages = false;
 	int numPagesFound = 0;
 	int lastIndexGood = 0;
 	// we are going to iterate through the vector holding every page
 	// remember, in pagesFilledWithProcesses, if a value is != 0, it is not free
-	std::cout << std:: endl << "pagesFilledWithProcesses size " << pagesFilledWithProcesses.size();
+	// std::cout << std:: endl << "pagesFilledWithProcesses size " << pagesFilledWithProcesses.size();
 
 	for (int i = 0; i < pagesFilledWithProcesses.size(); i++) {
 		std::cout << std:: endl << "Step " << i + 1 << " in looping through pagesFilledWithProcesses";
@@ -144,7 +146,7 @@ bool Memory::MemoryAvailable(Process processPassed, int amountNeeded, std::vecto
 		;
 }
 
-void MemoryManager::AttemptAddProcess(Process& rProcess, Memory & mem)
+bool MemoryManager::AttemptAddProcess(Process& rProcess, Memory & mem)
 {
 	// TODO A: Check if it can fit into memory first. Use the upper and lower
 	// bounds of the memory chunks in each process to determine where and if
@@ -168,10 +170,10 @@ void MemoryManager::AttemptAddProcess(Process& rProcess, Memory & mem)
 	// std::cout << "pMemoryChunks->size() " << pMemoryChunks->size() << std::endl;
 
 	int amountOfMemoryCurrentProcessNeeds = 0;
-	std::cout << "we are going to print the pmemorychunks\n" << "test size : " << pMemoryChunks->size() << std::endl;
+	// std::cout << "we are going to print the pmemorychunks\n" << "test size : " << pMemoryChunks->size() << std::endl;
 	for (int i = 0; i < pMemoryChunks->size(); i++) {
-		std::cout << "\n we are looking at memory chunk at index " << i << "\n";
-		std:: cout << "Memory chunk size: " << pMemoryChunks->at(i).size << "\n";
+		// std::cout << "\n we are looking at memory chunk at index " << i << "\n";
+		// std:: cout << "Memory chunk size: " << pMemoryChunks->at(i).size << "\n";
 		amountOfMemoryCurrentProcessNeeds += pMemoryChunks->at(i).size;
 	}
 	std::cout << "\nThis process needs " << amountOfMemoryCurrentProcessNeeds <<
@@ -216,7 +218,7 @@ void MemoryManager::AttemptAddProcess(Process& rProcess, Memory & mem)
 
 	if(canFit)
 	{
-		std::cout << "\nwe got through the canFit condition\n";
+		// std::cout << "\nwe got through the canFit condition\n";
 		// Add the process to the processes running list.
 		std::cout << "\nmProcessesRunning had size " << mProcessesRunning.size() << "\n";
 		mProcessesRunning.push_back(rProcess);
@@ -226,6 +228,7 @@ void MemoryManager::AttemptAddProcess(Process& rProcess, Memory & mem)
 
 		//now we go through the pagesFilledWithProcesses and see which ones we can have
 	}
+	return canFit;
 }
 
 void Memory:: updatePFWP (std::vector <int> passedVector){

@@ -268,7 +268,31 @@ int main()
 					// add the current process to the InputQueue
 					InputQueue.push_back(currentProcess);
 					printInputQueue(InputQueue);
-					memoryManager.AttemptAddProcess(currentProcess, memory);
+					if (memoryManager.AttemptAddProcess(currentProcess, memory)){
+						std::cout << "\nProcess " << currentProcess.GetPID() <<
+							" moved to memory\n";
+
+							int removeThisID = currentProcess.GetPID();
+							std::cout << "\nRemoving process with ID: " << removeThisID << " from InputQueue\n";
+							std::cout << "\nInput Queue before: \n";
+							for (int i = 0; i < InputQueue.size(); i++) {
+								std::cout << InputQueue.at(i).GetPID() << " ";
+							}
+							for (int i = 0; i < InputQueue.size(); i++) {
+								if (InputQueue.at(i).GetPID() == removeThisID) {
+									InputQueue.erase(InputQueue.begin() + i);
+								}
+							}
+							std::cout << "\nInput Queue after: \n";
+							for (int i = 0; i < InputQueue.size(); i++) {
+								std::cout << InputQueue.at(i).GetPID() << " ";
+							}
+
+
+					} else {
+						std::cout << "\nProcess " << currentProcess.GetPID() <<
+							" has to wait for memory to become free\n";
+					}
 
 				}
 
