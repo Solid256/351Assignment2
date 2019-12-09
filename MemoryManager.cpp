@@ -26,6 +26,13 @@ void MemoryManager::Init(MemoryManagerDesc& rDesc)
 	mMaxPageSize = rDesc.maxPageSize;
 	mpTime = rDesc.pTime;
 }
+
+void printProcessList (vector<Process> passed) {
+	for (int i = 0; i < passed.size(); i++) {
+		cout << "\n" << passed.at(i).GetPID();
+	}
+}
+
 void MemoryManager::RunProcesses(std::vector<Process> &InputQueuePassed, std::vector <Process> &processList,
 Memory & passedMemory)
 {
@@ -60,21 +67,42 @@ Memory & passedMemory)
 				freeUpSpace(passedMemory.pagesFilledWithProcesses, pCurProcess->GetPID());
 				passedMemory.printMemoryMap();
 				int index;
-			for (int pIn = 0; i < processList.size(); i++) {
-				if (processList.at(pIn).GetPID() == pCurProcess->GetPID()) {
-					// cout << "\nfound the index we were lookin for\n" <<
-					// processList.at(pIn).GetPID() << "==" << pCurProcess->GetPID() << endl;
-					index = pIn;
-					processList.erase(processList.begin() + index);
-					// cout << "Process list after: \n";
-					// printProcessList(processList);
-					break;
+				cout << "Process list size " << processList.size();
+				for (int l = 0; l < processList.size(); l++) {
+					int pid = processList.at(l).GetPID();
+					cout << "PID is " << pid << "we were looking for " << pCurProcess->GetPID();
+
+					if (pid = pCurProcess->GetPID()) {
+						cout << "Found it!!";
+						cout << "\nProcess with pid " << pid
+						 << " being erased.\n";
+						// 		processList.erase(processList.begin() + index);
+						cout << "before::: ";
+						printProcessList(processList);
+						processList.erase(processList.begin() + l+1);
+						cout << "after::: ";
+						printProcessList(processList);
+						break;
+					}
 				}
-				else {
-					// cout << "\nCouldn't find a match! Looking for " << pCurProcess->GetPID() <<
-					// " but found " << processList.at(pIn).GetPID() << endl;
-				}
-			}
+
+
+			// for (int pIn = 0; i < 8; i++) {
+			// 	if (processList.at(pIn).GetPID() == pCurProcess->GetPID()) {
+			// 		// cout << "\nfound the index we were lookin for\n" <<
+			// 		// processList.at(pIn).GetPID() << "==" << pCurProcess->GetPID() << endl;
+			// 		index = pIn;
+			// 		cout << "\nProcess with pid " << processList.at(pIn).GetPID() << " being erased.\n";
+			// 		processList.erase(processList.begin() + index);
+			// 		// cout << "Process list after: \n";
+			// 		// printProcessList(processList);
+			// 		break;
+			// 	}
+			// 	else {
+			// 		cout << "\nCouldn't find a match! Looking for " << pCurProcess->GetPID() <<
+			// 		" but found " << processList.at(pIn).GetPID() << endl;
+			// 	}
+			// }
 
 			// the process is no longer running so we need to remove it from the
 			// running processes vector
@@ -104,6 +132,7 @@ Memory & passedMemory)
 		}
 	}
 }
+
 
 bool Memory::MemoryAvailable(Process processPassed, int amountNeeded, std::vector<int> &passedVector) {
 

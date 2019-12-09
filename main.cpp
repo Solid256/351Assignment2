@@ -277,6 +277,7 @@ int main()
 
 
 
+
 					} else {
 						std::cout << "\nProcess " << currentProcess.GetPID() <<
 							" has to wait for memory to become free";
@@ -289,9 +290,16 @@ int main()
 			}
 			++time;
 			if (mainLoopCounter == 10000) {
-				cout << "\nwent over 1000000 times\n";
-				cout << "\nnum processes running " << memoryManager.GetNumProcessesRunning();
+
+				for (int jkl = 0; jkl < memoryManager.GetNumProcessesRunning(); jkl++) {
+					cout << "\nProcess running ID: " << memoryManager.mProcessesRunning.at(jkl).GetPID();
+				}
+				cout << "\nwent over 10000 times\n";
 				cout << "\nnum of processes in process list " << processList.size();
+				cout << "\nnum processes running!!! " << memoryManager.GetNumProcessesRunning();
+				cout << "Test";
+				cout << "\nnum of processes in process list " << processList.size();
+
 				// exit(0);
 			}
 		}
