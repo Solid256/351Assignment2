@@ -58,7 +58,7 @@ Memory & passedMemory)
 			std::cout << "\nProcess " << pCurProcess->GetPID()
 				<< " completed!";
 				freeUpSpace(passedMemory.pagesFilledWithProcesses, pCurProcess->GetPID());
-
+				passedMemory.printMemoryMap();
 				int index;
 			for (int pIn = 0; i < processList.size(); i++) {
 				if (processList.at(pIn).GetPID() == pCurProcess->GetPID()) {

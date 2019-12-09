@@ -292,7 +292,7 @@ int main()
 				cout << "\nwent over 1000000 times\n";
 				cout << "\nnum processes running " << memoryManager.GetNumProcessesRunning();
 				cout << "\nnum of processes in process list " << processList.size();
-				exit(0);
+				// exit(0);
 			}
 		}
 
