@@ -26,7 +26,7 @@ public:
 	void printMemoryMap();
 	void printTakenFrames();
 	bool MemoryAvailable(Process processPassed, int amountNeeded, std::vector<int> &passedVector);
-
+	bool freeUpSpace(std::vector<int> indexVects);
 	//array that will have as many spots as there are pages in memory
 	// each index indicates a page
 	// each value in the array is the PID of the process that takes up that page

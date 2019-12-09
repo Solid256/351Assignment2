@@ -60,7 +60,7 @@ int ReadProcessListFile(ProcessList& rProcessList, std::string fileName)
 		int memChunkVal = -1;
 
 		inFile >> numOfProcesses;
-		std:: cout << "\nInitial numOfProcesses: " << numOfProcesses;
+		// std:: cout << "\nInitial numOfProcesses: " << numOfProcesses;
 
 		for(int i = 0; i < numOfProcesses; i++)
 		{
@@ -101,8 +101,8 @@ int ReadProcessListFile(ProcessList& rProcessList, std::string fileName)
 			desc.mPID = curPID;
 			desc.mArrivalTime = arrivalTime;
 			desc.mExecutionTime = executionTime;
-			// desc.mAmntPagesNeeded = numOfMemChunks;
-			// desc.mAmntMemNeeded = memSum;
+			desc.mAmntPagesNeeded = numOfMemChunks;
+			desc.mAmntMemNeeded = memSum;
 
 			// initialize the new process with the values we have assigned
 			curProcess.Init(desc);
@@ -121,7 +121,7 @@ int ReadProcessListFile(ProcessList& rProcessList, std::string fileName)
 		// Check if successful.
 		if(success)
 		{
-			std::cout << " Finished!\n";
+			// std::cout << " Finished!\n";
 		}
 		else
 		{
@@ -134,7 +134,7 @@ int ReadProcessListFile(ProcessList& rProcessList, std::string fileName)
 		std::cout << "ERROR: in-file for processes could not be opened!.\n";
 		success = false;
 	}
-	std::cout<<"\nReturning numOfProcesses: " << numOfProcesses << "\n";
+	// std::cout<<"\nReturning numOfProcesses: " << numOfProcesses << "\n";
 	return numOfProcesses;
 }
 
@@ -229,21 +229,6 @@ int main()
 		memoryManager.Init(desc);
 		Memory memory;
 		memory.Init(pageSize, memorySize, numOfProcesses);
-		// std::cout << "\nprocessList after 2 " << processList.size();
-// ----------------------------------------------------------------------
-		// TODO A: For testing purposes only! Remove if not needed.
-		// while(processList.size() > 0)
-		// {
-		// 	// A reference to the current process being
-		// 	// added to the memory manager.
-		// 	// the back() function returns the object at the end of the vector
-		// 	Process& rProcess = processList.back();
-		//
-		// 	// remove this process from the processList
-		// 	processList.pop_back();
-		// 	memoryManager.AttemptAddProcess(rProcess);
-		// }
-// ----------------------------------------------------------------------
 
 		// The main loop for the OS simulator.
 		//while there are processes in the Input Queue or Processes are still running
@@ -271,7 +256,7 @@ int main()
 					printInputQueue(InputQueue);
 					if (memoryManager.AttemptAddProcess(currentProcess, memory)){
 						std::cout << "\nProcess " << currentProcess.GetPID() <<
-							" moved to memory\n";
+							" moved to memory";
 
 							int removeThisID = currentProcess.GetPID();
 							// std::cout << "\nRemoving process with ID: " << removeThisID << " from InputQueue\n";
@@ -294,7 +279,7 @@ int main()
 
 					} else {
 						std::cout << "\nProcess " << currentProcess.GetPID() <<
-							" has to wait for memory to become free\n";
+							" has to wait for memory to become free";
 					}
 
 				}
@@ -313,7 +298,7 @@ int main()
 
 	// TODO: Compute the Average Turnaround Time.
 	float totalTime = 0;
-	std::cout << "\nProcess List size: " << processList.size();
+	// std::cout << "\nProcess List size: " << processList.size();
 
 	for (int i = 0; i < processList.size(); i++ ) {
 
@@ -334,17 +319,10 @@ int main()
 	return 0;
 }
 
-// class MemoryMap{
-//
-// 	int sizeOfAPage = -1;
-// 	int totalPossibleFrames = -1;
-// 	int numberOfPages = -1;
-//
-// 	//will look something like 0, 400, 800... if the sizeOfAPage is 400 for ex
-// 	//the number will indicate the starting point of open page
-// 	int allPages [numberOfPages];
-// 	vector<int> pagesThatAreTaken;
-//
-//
-//
+// void removeProcessFromQueue (int passedTime, ProcessList &passedList, int numProcs);
+// void removeProcessFromQueue (int passedTime, ProcessList &passedList, int numProcs) {
+// 	for int (i = 0; i < numProcs; i++) {
+// 		int timeInMem = passedTime -
+// 	}
+
 // }

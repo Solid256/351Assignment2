@@ -35,6 +35,10 @@ struct ProcessDesc
 	// The memory chunks that make up the process.
 	MemoryChunks mMemoryChunks;
 
+	int mAmntPagesNeeded;
+
+	int mAmntMemNeeded;
+
 };
 
 class Process

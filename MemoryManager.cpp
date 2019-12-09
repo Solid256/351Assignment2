@@ -18,7 +18,6 @@ void MemoryManager::Init(MemoryManagerDesc& rDesc)
 	mMaxPageSize = rDesc.maxPageSize;
 	mpTime = rDesc.pTime;
 }
-
 void MemoryManager::RunProcesses(std::vector<Process> &InputQueuePassed, std::vector <Process> &processList)
 {
 
@@ -47,8 +46,8 @@ void MemoryManager::RunProcesses(std::vector<Process> &InputQueuePassed, std::ve
 		// Remove the process if it has no more time left.
 		if(pCurProcess->GetExecutionTime() == 0)
 		{
-			std::cout << "Process " << pCurProcess->GetPID()
-				<< " completed!\n";
+			std::cout << "\nProcess " << pCurProcess->GetPID()
+				<< " completed!";
 
 				int index;
 			for (int pIn = 0; i < processList.size(); i++) {
@@ -62,8 +61,8 @@ void MemoryManager::RunProcesses(std::vector<Process> &InputQueuePassed, std::ve
 					break;
 				}
 				else {
-					cout << "\nCouldn't find a match! Looking for " << pCurProcess->GetPID() <<
-					" but found " << processList.at(pIn).GetPID() << endl;
+					// cout << "\nCouldn't find a match! Looking for " << pCurProcess->GetPID() <<
+					// " but found " << processList.at(pIn).GetPID() << endl;
 				}
 			}
 
@@ -100,23 +99,20 @@ bool Memory::MemoryAvailable(Process processPassed, int amountNeeded, std::vecto
 
 	// using this arithmetic to round up to nearest integer
 	int pagesNeeded = (amountNeeded + pageSize - 1) / pageSize;
-	std::cout << "\nNeed " << pagesNeeded << " pages \n";
+	// std::cout << "\nNeed " << pagesNeeded << " pages \n";
 	//if the amount needed less than a page size
 		// find first available pageSize
 
 		//We are looking for n consecutive pages
 		// so we make an array that can hold n values
-	// std::vector <int> pagesThatWouldWork (pagesNeeded, 0);
   std::vector <int> pagesThatWouldWork;
 	bool foundEnoughPages = false;
 	int numPagesFound = 0;
 	int lastIndexGood = 0;
 	// we are going to iterate through the vector holding every page
 	// remember, in pagesFilledWithProcesses, if a value is != 0, it is not free
-	// std::cout << std:: endl << "pagesFilledWithProcesses size " << pagesFilledWithProcesses.size();
 
 	for (int i = 0; i < pagesFilledWithProcesses.size(); i++) {
-		// std::cout << std:: endl << "Step " << i + 1 << " in looping through pagesFilledWithProcesses";
 		// we are looking at a page. at index i
 		// if the page we are looking at is open, we need to go to the next one
 		// then the next one and so on until we have as many as we need
@@ -134,26 +130,26 @@ bool Memory::MemoryAvailable(Process processPassed, int amountNeeded, std::vecto
 	// is of the final open page
 	// so we can start at final index and count backwards by 1 for pagesNeeded times
 	// and get the indexes we can put into the free frames
-	std::cout << "\n pages needed " << pagesNeeded ;
+	// std::cout << "\n pages needed " << pagesNeeded ;
 	for (int i = 0; i < pagesNeeded; i++) {
-		std::cout << "\n******************************************************";
+		// std::cout << "\n******************************************************";
 		int checkval = lastIndexGood - i;
 		if (checkval < 0) {
-			std::cout << "\nERROR! lastIndexGood - i was negative. failure!\n";
+			// std::cout << "\nERROR! lastIndexGood - i was negative. failure!\n";
 
 		}
 		 else {
 			 pagesThatWouldWork.push_back(checkval);
 			 pagesFilledWithProcesses.at(checkval) = processPassed.GetPID();
-			 std::cout<<"\nNow index " << checkval << " of pagesFilledWithProcesses " <<
-			 "has value " << processPassed.GetPID() << "\n";
+			 // std::cout<<"\nNow index " << checkval << " of pagesFilledWithProcesses " <<
+			 // "has value " << processPassed.GetPID() << "\n";
 		 }
 	}
 
 
 	// print pages that would work
 	for (int i = 0; i < pagesThatWouldWork.size(); i++) {
-		std::cout << "\npage that would work " << pagesThatWouldWork.at(i) << "\n";
+		// std::cout << "\npage that would work " << pagesThatWouldWork.at(i) << "\n";
 		passedVector.push_back(pagesThatWouldWork.at(i));
 
 	}
@@ -170,17 +166,7 @@ bool MemoryManager::AttemptAddProcess(Process& rProcess, Memory & mem)
 	// TODO A: Check if it can fit into memory first. Use the upper and lower
 	// bounds of the memory chunks in each process to determine where and if
 	// the new processes and its memory chunks can fit.
-
-	// int curLowerBound = -1;
-	// int curUpperBound = -1;
 	bool canFit;
-
-	// std::cout << "We are in AttemptAddProcess(Process& rProcess). I am printing rProcess...\n";
-	// std::cout << "\nmProcessesRunning size: " << mProcessesRunning.size() << std::endl;
-	// for (int i = 0; i < mProcessesRunning.size(); i++) {
-	// 	std::cout << "\nPrinting process " << i << " out of " << mProcessesRunning.size();
-	// 	mProcessesRunning.at(i).printProcess();
-	// }
 
 
 
@@ -189,14 +175,11 @@ bool MemoryManager::AttemptAddProcess(Process& rProcess, Memory & mem)
 	// std::cout << "pMemoryChunks->size() " << pMemoryChunks->size() << std::endl;
 
 	int amountOfMemoryCurrentProcessNeeds = 0;
-	// std::cout << "we are going to print the pmemorychunks\n" << "test size : " << pMemoryChunks->size() << std::endl;
 	for (int i = 0; i < pMemoryChunks->size(); i++) {
-		// std::cout << "\n we are looking at memory chunk at index " << i << "\n";
-		// std:: cout << "Memory chunk size: " << pMemoryChunks->at(i).size << "\n";
 		amountOfMemoryCurrentProcessNeeds += pMemoryChunks->at(i).size;
 	}
-	std::cout << "\nThis process needs " << amountOfMemoryCurrentProcessNeeds <<
-		" frames of Memory\n";
+	// std::cout << "\nThis process needs " << amountOfMemoryCurrentProcessNeeds <<
+	// 	" frames of Memory\n";
 
 	// Now we look in the memory to see if there are 500 frames available
 	Memory * m = &mem;
@@ -207,45 +190,23 @@ bool MemoryManager::AttemptAddProcess(Process& rProcess, Memory & mem)
 
 	canFit = m->MemoryAvailable(rProcess, amountOfMemoryCurrentProcessNeeds, freeFramesVector);
 
-	std::cout << "we are now out of MemoryAvailable() so we should have freeFramesVector with values in it\nfreeFramesVector size: "
-	<< freeFramesVector.size() << "\n" << "\nFreeframesvalues : \n";
-	for (int i = 0; i < freeFramesVector.size(); i++) {
-		std::cout << "\n" << freeFramesVector.at(i);
-	}
-
-	// // iterate through each process that is running
-	// for (int i = 0; i < mProcessesRunning.size(); i++) {
-	//
-	// 	// std::cout << "\n\nIterating through a new running process. Printing process: \n";
-	// 	Process currentProcess =  mProcessesRunning.at(i);
-	// 	// currentProcess.printProcess();
-	//
-	// 	// iterate through currentProcess' memory chunks vector
-	// 	MemoryChunks* curProcMemChunksVecPtr = currentProcess.GetMemoryChunksPtr();
-	// 	int memChunksSize = curProcMemChunksVecPtr->size();
-	// 	// std::cout << "\nmemChunksSize: " << memChunksSize << std::endl;
-	// 	for(int j = 0; j < memChunksSize; j ++) {
-	// 		// std::cout << "\nNow we are dealing with individual memory chunk";
-	// 		// we are now dealing with individual memory chunk
-	// 		MemoryChunk currentMemoryChunk = curProcMemChunksVecPtr->at(j);
-	// 		int lower = currentMemoryChunk.lowerBound;
-	// 		int upper = currentMemoryChunk.upperBound;
-	// 		// std::cout << "\nlower: " << lower << " upper: " << upper;
-	// 	}
-
+	// std::cout << "\nfreeFramesVector size: "
+	// << freeFramesVector.size() << "\n" << "\nFreeframesvalues : \n";
+	// for (int i = 0; i < freeFramesVector.size(); i++) {
+	// 	std::cout << "\n" << freeFramesVector.at(i);
 	// }
+
 
 	if(canFit)
 	{
-		// std::cout << "\nwe got through the canFit condition\n";
+
 		// Add the process to the processes running list.
-		std::cout << "\nmProcessesRunning had size " << mProcessesRunning.size() << "\n";
+		// std::cout << "\nmProcessesRunning had size " << mProcessesRunning.size() << "\n";
 		mProcessesRunning.push_back(rProcess);
-		std::cout << "\n now hit has size " << mProcessesRunning.size() << "\n";
+		// std::cout << "\n now hit has size " << mProcessesRunning.size() << "\n";
 
 		// TODO A: Display the memory map just like in the examples.
 
-		//now we go through the pagesFilledWithProcesses and see which ones we can have
 	}
 	return canFit;
 }
@@ -268,18 +229,14 @@ void printIntVector (std::vector <int> vec) {
 }
 
 
+// bool Memory::freeUpSpace(std::vector<int> indexVects) {
+//
+//
+// }
+
 void Memory:: printMemoryMap(){
-	//this is just for testing take it out later
-	// if (pagesFilledWithProcesses.size() != numPages) {
-	// 	cout << "Error, pagesFilledWithProcesses is not size numberOfPages it has size " << pagesFilledWithProcesses.size();
-	// 	exit(0);
-	// }
 
-	// std::cout << "\nPrinting pagesFilledWithProcesses check\n";
-	// printIntVector(pagesFilledWithProcesses);
-
-
-	std::cout << "\nMemory Map:";
+	std::cout << "\n\nMemory Map:";
 	int check = 0;
 	int nextProccesID = 0;
 	int repeated = 0;
@@ -293,7 +250,7 @@ void Memory:: printMemoryMap(){
 		if (i > 0) previousID = pagesFilledWithProcesses.at(i-1);
 		if (currentProcessID == 0) {
 			std::cout << "\n" << i * pageSize << "-" << i * pageSize + pageSize - 1
-				<< ": Free frame(s)\n";
+				<< ": Free frame(s)";
 		} else {
 				if (previousID == currentProcessID) {
 					repeated += 1;
@@ -303,29 +260,12 @@ void Memory:: printMemoryMap(){
 				}
 				// cout << endl << "i: " << i << endl << "repeated: " << repeated << endl;
 			std::cout << "\n" << i * pageSize << "-" << (i * pageSize) + (pageSize - 1)
-			 	<< ": Process " << currentProcessID << ", Page " << 1 +  (1 * repeated) << "\n";
+			 	<< ": Process " << currentProcessID << ", Page " << 1 +  (1 * repeated);
 
-		// 	//count how many pages in advance are for this process
-		// 	int pageCounter = 1;
-		// 	int checkCounter = 1;
-		// 	nextProccesID = pagesFilledWithProcesses.at(i+checkCounter);
-		// 	while (nextProccesID == currentProcessID) {
-		// 		checkCounter += 1;
-		// 		nextProccesID = pagesFilledWithProcesses.at(i+checkCounter);
-		// 		pageCounter += 1 ;
-		// 	}
-		// 	for (int j = 0; j < pageCounter; j++) {
-		// 		std::cout << "\n" << j * pageSize << "-" << j * pageSize + pageSize - 1
-		// 			<< ": Process " << currentProcessID << ", Page " << j + 1 << "\n";
-		// 	}
-		//
+
 		}
-
 	}
-	//Go through pages filled with Processes
-	// if the page has a 0 value, print (free frames)
-	// if it has a value other than zero. get that value
-	// print Process #, Page (whatever page it is)
+	cout << endl;
 }
 
 // Getters:
@@ -344,7 +284,7 @@ void Memory::Init(int pSize, int nFrames, int numProcs) {
 		freeFrames.push_back(i);
 	}
 
-	std::cout << "numProcs " << numProcs;
+	// std::cout << "numProcs " << numProcs;
 	// set every value of pagesFilledWithProcesses to zero to start with
 	for (int i = 0; i < numPages; i++) {
 		pagesFilledWithProcesses.push_back(0);
