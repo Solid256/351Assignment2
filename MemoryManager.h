@@ -58,7 +58,8 @@ class MemoryManager
 	void Init(MemoryManagerDesc& rDesc);
 
 	// Runs each process in memory for one time unit.
-	void RunProcesses(std::vector<Process> & InputQueuePassed, std::vector<Process> & processList);
+	void RunProcesses(std::vector<Process> &InputQueuePassed, std::vector <Process> &processList,
+	Memory & passedMemory);
 
 	// Attempts to add a process to the memory
 	// manager. If there isn't enough room, the

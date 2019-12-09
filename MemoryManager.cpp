@@ -12,13 +12,22 @@ MemoryManager::MemoryManager() :
 
 }
 
+void freeUpSpace (vector<int> & pagesPassedList, int passedPID) {
+	for (int i = 0; i < pagesPassedList.size(); i++) {
+		if (pagesPassedList.at(i) == passedPID) {
+			pagesPassedList.at(i) = 0;
+		}
+	}
+}
+
 void MemoryManager::Init(MemoryManagerDesc& rDesc)
 {
 	mMaxMemorySize = rDesc.maxMemorySize;
 	mMaxPageSize = rDesc.maxPageSize;
 	mpTime = rDesc.pTime;
 }
-void MemoryManager::RunProcesses(std::vector<Process> &InputQueuePassed, std::vector <Process> &processList)
+void MemoryManager::RunProcesses(std::vector<Process> &InputQueuePassed, std::vector <Process> &processList,
+Memory & passedMemory)
 {
 
 	// std::cout<< "\nEntering RunProcesses";
@@ -48,6 +57,7 @@ void MemoryManager::RunProcesses(std::vector<Process> &InputQueuePassed, std::ve
 		{
 			std::cout << "\nProcess " << pCurProcess->GetPID()
 				<< " completed!";
+				freeUpSpace(passedMemory.pagesFilledWithProcesses, pCurProcess->GetPID());
 
 				int index;
 			for (int pIn = 0; i < processList.size(); i++) {
@@ -229,10 +239,6 @@ void printIntVector (std::vector <int> vec) {
 }
 
 
-// bool Memory::freeUpSpace(std::vector<int> indexVects) {
-//
-//
-// }
 
 void Memory:: printMemoryMap(){
 

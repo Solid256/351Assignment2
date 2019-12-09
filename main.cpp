@@ -237,7 +237,7 @@ int main()
 			memoryManager.GetNumProcessesRunning() > 0)
 		{
 			mainLoopCounter += 1;
-			memoryManager.RunProcesses(InputQueue, processList);
+			memoryManager.RunProcesses(InputQueue, processList, memory);
 
             // go through process list
 			for (int i = 0; i < processList.size(); i++) {
@@ -319,10 +319,13 @@ int main()
 	return 0;
 }
 
-// void removeProcessFromQueue (int passedTime, ProcessList &passedList, int numProcs);
-// void removeProcessFromQueue (int passedTime, ProcessList &passedList, int numProcs) {
-// 	for int (i = 0; i < numProcs; i++) {
-// 		int timeInMem = passedTime -
-// 	}
+void removeProcessFromQueue (int passedTime, ProcessList &passedList, int numProcs);
+void removeProcessFromQueue (int passedTime, ProcessList &passedList, int numProcs) {
+	for (int i = 0; i < numProcs; i++) {
+		int timeInMem = passedTime - passedList.at(i).GetArrivalTime();
+		if (timeInMem == passedList.at(i).GetExecutionTime()) {
 
-// }
+		}
+	}
+
+}
