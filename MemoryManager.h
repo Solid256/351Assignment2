@@ -59,7 +59,7 @@ class MemoryManager
 
 	// Runs each process in memory for one time unit.
 	void RunProcesses(std::vector<Process> &InputQueuePassed, std::vector <Process> &processList,
-	Memory & passedMemory);
+	Memory & passedMemory, int passedTime, vector<Process> &passedFinishedV);
 
 	// Attempts to add a process to the memory
 	// manager. If there isn't enough room, the

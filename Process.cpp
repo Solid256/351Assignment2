@@ -4,7 +4,8 @@
 Process::Process() :
 	mPID(0),
 	mArrivalTime(0),
-	mExecutionTime(0)
+	mExecutionTime(0),
+	endTime(-1)
 {
 
 }
@@ -15,6 +16,7 @@ void Process::Init(ProcessDesc& rDesc)
 	mArrivalTime = rDesc.mArrivalTime;
 	mExecutionTime = rDesc.mExecutionTime;
 	mMemoryChunks = rDesc.mMemoryChunks;
+	endTime = -1;
 }
 
 void Process::DecrementExecutionTime()
@@ -62,4 +64,8 @@ void Process::printProcess()
 		std::cout << "\nLower: " << mMemoryChunks.at(i).lowerBound << std::endl;
 	}
 
+}
+
+void Process:: setEndTime (int end) {
+	endTime = end;
 }

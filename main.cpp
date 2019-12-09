@@ -19,6 +19,8 @@ void printInputQueue(std::vector<Process> IQ) {
 	std::cout << "]";
 }
 
+vector<Process> finishedProcesses;
+
 int ReadProcessListFile(ProcessList& rProcessList, std::string fileName);
 
 int ReadProcessListFile(ProcessList& rProcessList, std::string fileName)
@@ -237,7 +239,7 @@ int main()
 			memoryManager.GetNumProcessesRunning() > 0)
 		{
 			mainLoopCounter += 1;
-			memoryManager.RunProcesses(InputQueue, processList, memory);
+			memoryManager.RunProcesses(InputQueue, processList, memory, time, finishedProcesses);
 
             // go through process list
 			for (int i = 0; i < processList.size(); i++) {
@@ -315,8 +317,21 @@ int main()
 		totalTime += currentProcess.GetExecutionTime();
 
 	}
-	float averageTurnAroundTime = totalTime / processList.size();
-	printf("Average Turn Around Time: %2.2f\n", averageTurnAroundTime);
+
+	// cout << "finishedProcesses: \n";
+	int sumOfTurnAroundTime = 0;
+	for (int f = 0; f < finishedProcesses.size(); f++)
+	{
+		// cout << finishedProcesses.at(f).GetPID() << endl;
+		int arrivalTime = finishedProcesses.at(f).GetArrivalTime();
+		int endTime = finishedProcesses.at(f).endTime;
+		int turnAroundTime = endTime - arrivalTime;
+		// cout << "This process had end time " << endTime << " and arrival time "
+		// << arrivalTime << "so turnAroundTime is " << turnAroundTime;
+		sumOfTurnAroundTime += turnAroundTime;
+	}
+	float averageTurnAroundTime = sumOfTurnAroundTime / finishedProcesses.size();
+	cout << "\nAverage Turn Around Time: " << averageTurnAroundTime << endl;
 
 
 	}

@@ -67,7 +67,8 @@ public:
 	int GetAmntMemNeeded();
 	int GetAmntPagesNeeded();
 	std::vector <int> pagesUsing;
-
+	void setEndTime(int end);
+	int endTime;
 	// Variables:
 private:
 	// The process ID.
@@ -81,6 +82,8 @@ private:
 
 	// The memory chunks that make up the process.
 	MemoryChunks mMemoryChunks;
+
+
 
 };
 

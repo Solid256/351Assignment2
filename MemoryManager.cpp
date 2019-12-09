@@ -34,7 +34,7 @@ void printProcessList (vector<Process> passed) {
 }
 
 void MemoryManager::RunProcesses(std::vector<Process> &InputQueuePassed, std::vector <Process> &processList,
-Memory & passedMemory)
+Memory & passedMemory, int passedTime, vector<Process> &passedFinishedV)
 {
 
 	// std::cout<< "\nEntering RunProcesses";
@@ -64,24 +64,28 @@ Memory & passedMemory)
 		{
 			std::cout << "\nProcess " << pCurProcess->GetPID()
 				<< " completed!";
+				// cout << "current time is " << passedTime;
+				pCurProcess->setEndTime(passedTime);
+				// cout << "now current process time is " << pCurProcess->endTime;
+				passedFinishedV.push_back(*pCurProcess);
 				freeUpSpace(passedMemory.pagesFilledWithProcesses, pCurProcess->GetPID());
 				passedMemory.printMemoryMap();
 				int index;
-				cout << "Process list size " << processList.size();
+				// cout << "Process list size " << processList.size();
 				for (int l = 0; l < processList.size(); l++) {
 					int pid = processList.at(l).GetPID();
-					cout << "PID is " << pid << "we were looking for " << pCurProcess->GetPID();
+					// cout << "PID is " << pid << "we were looking for " << pCurProcess->GetPID();
 
 					if (pid = pCurProcess->GetPID()) {
-						cout << "Found it!!";
-						cout << "\nProcess with pid " << pid
-						 << " being erased.\n";
+						// cout << "Found it!!";
+						// cout << "\nProcess with pid " << pid
+						//  << " being erased.\n";
 						// 		processList.erase(processList.begin() + index);
-						cout << "before::: ";
-						printProcessList(processList);
+						// cout << "before::: ";
+						// printProcessList(processList);
 						processList.erase(processList.begin() + l+1);
-						cout << "after::: ";
-						printProcessList(processList);
+						// cout << "after::: ";
+						// printProcessList(processList);
 						break;
 					}
 				}
