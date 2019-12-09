@@ -6,9 +6,11 @@ Programming Language Used: C++
 
 How to execute the program(s):
 In the console, type ./OS_Simulator and press enter.
+Enter a size for the virtual memory.
+Enter the size for each page of memory.
 
 Extra credit has been implemented:
-Nope.
+No.
 
 Anything Special about the Submission:
 It is very simple and straightforward. The pages themselves manage their own starting and ending indexes.
