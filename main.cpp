@@ -267,19 +267,19 @@ int main()
 			}
 			++time;
 			if (mainLoopCounter == 10000) {
-				cout << "\nmProcessrunning " << memoryManager.mProcessesRunning.size();
-				for (int jkl = 0; jkl < memoryManager.GetNumProcessesRunning(); jkl++) {
-					cout << "\nProcess running ID: " << memoryManager.mProcessesRunning.at(jkl).GetPID();
-				}
-				for (int i = 0; i < processList.size(); i++) {
-					cout << "\nProcess list ID, timeBeenRunning, execution time, current time " <<
-					processList.at(i).GetPID() << " " << processList.at(i).timeBeenRunning
-					<< " " << processList.at(i).GetExecutionTime() << " " << time;
-				}
-
-				cout << "\nwent over 10000 times\n";
-				cout << "\nnum of processes in process list " << processList.size();
-				cout << "\nnum processes running!!! " << memoryManager.GetNumProcessesRunning();
+				// cout << "\nmProcessrunning " << memoryManager.mProcessesRunning.size();
+				// for (int jkl = 0; jkl < memoryManager.GetNumProcessesRunning(); jkl++) {
+				// 	cout << "\nProcess running ID: " << memoryManager.mProcessesRunning.at(jkl).GetPID();
+				// }
+				// for (int i = 0; i < processList.size(); i++) {
+				// 	// cout << "\nProcess list ID, timeBeenRunning, execution time, current time " <<
+				// 	// processList.at(i).GetPID() << " " << processList.at(i).timeBeenRunning
+				// 	// << " " << processList.at(i).GetExecutionTime() << " " << time;
+				// }
+				//
+				// cout << "\nwent over 10000 times\n";
+				// cout << "\nnum of processes in process list " << processList.size();
+				// cout << "\nnum processes running!!! " << memoryManager.GetNumProcessesRunning();
 
 			}
 		 checkProcessListSize = processList.size();

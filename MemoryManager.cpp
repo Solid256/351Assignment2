@@ -76,13 +76,13 @@ Memory & passedMemory, int passedTime, vector<Process> &passedFinishedV)
 					int pid = processList.at(l).GetPID();
 
 					if (pid = pCurProcess->GetPID()) {
-						cout << "\nErasing " << pid << " from process list.";
+						// cout << "\nErasing " << pid << " from process list.";
 						processList.erase(processList.begin() + l+1);
 						break;
 					}
 				}
-			cout << "\nErasing " << mProcessesRunning.at(i).GetPID() << " from mProcessesRunning.";
-			cout << "\nProcess " << pCurProcess->GetPID() << " timeBeenRunning: " << pCurProcess->timeBeenRunning;
+			// cout << "\nErasing " << mProcessesRunning.at(i).GetPID() << " from mProcessesRunning.";
+			// cout << "\nProcess " << pCurProcess->GetPID() << " timeBeenRunning: " << pCurProcess->timeBeenRunning;
 			mProcessesRunning.erase(mProcessesRunning.begin() + i);
 			// now that we removed the process, the next process that was at the next
 			// index moved up one spot, so we need to make i go back
