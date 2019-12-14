@@ -1,0 +1,40 @@
+"main.cpp":
+	path: "main.cpp"
+	cwd: "/home/student/Desktop/351Assignment2"
+
+"main.cpp 2":
+	debugger: "dbg-gdb"
+	path: "main.cpp"
+	cwd: "/home/student/Desktop/351Assignment2"
+
+"OS_Simulator":
+	debugger: "dbg-gdb"
+	path: "OS_Simulator"
+	cwd: "/home/student/Desktop/351Assignment2"
+
+"OS_Simulator 2":
+	debugger: "dbg-gdb"
+	path: "OS_Simulator"
+	args: ["in1.txt"]
+	cwd: "/home/student/Desktop/351Assignment2"
+
+"OS_Simulator 3":
+	debugger: "dbg-gdb"
+	path: "OS_Simulator"
+	cwd: "/home/student/Desktop/351Assignment2"
+
+"OS_Simulator 4":
+	debugger: "dbg-gdb"
+	path: "OS_Simulator"
+	cwd: "/home/student/Desktop/351Assignment2"
+
+"main.o":
+	debugger: "dbg-gdb"
+	path: "main.o"
+	cwd: "/home/student/Desktop/351Assignment2"
+
+"OS_Simulator 5":
+	debugger: "dbg-gdb"
+	path: "OS_Simulator"
+	args: ["b main"]
+	cwd: "/home/student/Desktop/351Assignment2"

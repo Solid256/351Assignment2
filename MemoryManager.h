@@ -27,11 +27,14 @@ public:
 	void printTakenFrames();
 	bool MemoryAvailable(Process processPassed, int amountNeeded, std::vector<int> &passedVector);
 	bool freeUpSpace(std::vector<int> indexVects);
-	//array that will have as many spots as there are pages in memory
+
+
+	// pagesFilledWithProcesses is an array that will have as many spots as there are pages in memory
 	// each index indicates a page
 	// each value in the array is the PID of the process that takes up that page
 	// int pagesFilledWithProcesses [numberOfFrames / pageSize];
 	std::vector<int> pagesFilledWithProcesses;
+	// PFWP is pagesFilledWithProcesses
 	void updatePFWP (std::vector <int> passedVector);
 	std::vector<int> getEmptyIndexesOfPFWP (std::vector<int> passed);
 };

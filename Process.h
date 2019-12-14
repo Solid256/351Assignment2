@@ -69,6 +69,7 @@ public:
 	std::vector <int> pagesUsing;
 	void setEndTime(int end);
 	int endTime;
+	int timeBeenRunning;
 	// Variables:
 private:
 	// The process ID.

@@ -5,7 +5,8 @@ Process::Process() :
 	mPID(0),
 	mArrivalTime(0),
 	mExecutionTime(0),
-	endTime(-1)
+	endTime(-1),
+	timeBeenRunning(0)
 {
 
 }
@@ -17,6 +18,7 @@ void Process::Init(ProcessDesc& rDesc)
 	mExecutionTime = rDesc.mExecutionTime;
 	mMemoryChunks = rDesc.mMemoryChunks;
 	endTime = -1;
+	timeBeenRunning = 0;
 }
 
 void Process::DecrementExecutionTime()

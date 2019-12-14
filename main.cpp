@@ -6,7 +6,7 @@
 #include "Process.h"
 #include "MemoryManager.h"
 
-// std::vector<int> iq;
+
 // Reads the process list file and creates the process objects and stores them
 // in a vector.
 void printInputQueue(std::vector<Process> IQ);
@@ -22,12 +22,10 @@ void printInputQueue(std::vector<Process> IQ) {
 vector<Process> finishedProcesses;
 
 int ReadProcessListFile(ProcessList& rProcessList, std::string fileName);
-
 int ReadProcessListFile(ProcessList& rProcessList, std::string fileName)
 {
 	// Checks if an error has occured.
 	bool success = true;
-
 
 	// The number of processes being read.
 	int numOfProcesses = -1;
@@ -44,8 +42,6 @@ int ReadProcessListFile(ProcessList& rProcessList, std::string fileName)
 
 	if(inFile.is_open())
 	{
-
-
 		// The current process id.
 		int curPID = -1;
 
@@ -62,7 +58,6 @@ int ReadProcessListFile(ProcessList& rProcessList, std::string fileName)
 		int memChunkVal = -1;
 
 		inFile >> numOfProcesses;
-		// std:: cout << "\nInitial numOfProcesses: " << numOfProcesses;
 
 		for(int i = 0; i < numOfProcesses; i++)
 		{
@@ -111,38 +106,29 @@ int ReadProcessListFile(ProcessList& rProcessList, std::string fileName)
 
 			//add the new process to the process list
 			// rProcessList is a ProcessList that is passed into this function we
-			// are in right now. Its address is passed so that when we modify it
-			// in this function, the original ProcessList that was passed is changed
-			// outside of this scope as well
+			// are in right now.
 			rProcessList.push_back(curProcess);
-			// std::cout<< "rProcessList.size() " << rProcessList.size();
 		}
 
 		inFile.close();
 
 		// Check if successful.
-		if(success)
-		{
-			// std::cout << " Finished!\n";
-		}
-		else
+		if(!success)
 		{
 			std::cout << "ERROR: The in-file is corrupt and "
 			"cannot be read!\n";
-		}
+		} else {}
 	}
 	else
 	{
 		std::cout << "ERROR: in-file for processes could not be opened!.\n";
 		success = false;
 	}
-	// std::cout<<"\nReturning numOfProcesses: " << numOfProcesses << "\n";
 	return numOfProcesses;
 }
 
 int main()
 {
-	// The memory manager for this OS simulation.
 	// This is the main MemoryManager object that will be used throughout the
 	// program
 	MemoryManager memoryManager;
@@ -150,7 +136,6 @@ int main()
 	std::vector<Process> InputQueue;
 
 	// The list of processes being read from the in file.
-	// ProcessList is a typdef of vector<Process>
 	ProcessList processList;
 
 	// Checks if an error has occured while reading the file.
@@ -158,10 +143,8 @@ int main()
 
 	// First, create the processes needed to be executed by the OS simulator.
 	success = ReadProcessListFile(processList, "in1.txt");
-	// std::cout << "\nprocessList after ReadProcessListFile: " << processList.size()
-		// << "\n";
+
 	int numOfProcesses = success;
-	// If successful, continue.
 	if(success)
 	{
 		// The maximum memory size of the OS.
@@ -214,9 +197,11 @@ int main()
 					break;
 			}
 		}while(!validInput);
-		// std::cout << "\nprocessList after 1 " << processList.size();
 		// The time elapsed in fake time units.
 		// this is our virtual clock
+		pageSize = 400;
+		memorySize = 2000;
+
 		int time = 0;
 
 		// The memory manager descriptor.
@@ -235,8 +220,10 @@ int main()
 		// The main loop for the OS simulator.
 		//while there are processes in the Input Queue or Processes are still running
 		int mainLoopCounter = 0;
-		while(processList.size() > 0 ||
-			memoryManager.GetNumProcessesRunning() > 0)
+		int checkProcessListSize = processList.size();
+		int numProcessesRunningCheck = memoryManager.GetNumProcessesRunning();
+		while(checkProcessListSize > 0 ||
+			numProcessesRunningCheck > 0)
 		{
 			mainLoopCounter += 1;
 			memoryManager.RunProcesses(InputQueue, processList, memory, time, finishedProcesses);
@@ -261,73 +248,59 @@ int main()
 							" moved to memory";
 
 							int removeThisID = currentProcess.GetPID();
-							// std::cout << "\nRemoving process with ID: " << removeThisID << " from InputQueue\n";
-							// std::cout << "\nInput Queue before: \n";
-							// for (int i = 0; i < InputQueue.size(); i++) {
-							// 	std::cout << InputQueue.at(i).GetPID() << " ";
-							// }
+
+							// Remove from the Input Queue the process that was added
+							// to memory
 							for (int i = 0; i < InputQueue.size(); i++) {
 								if (InputQueue.at(i).GetPID() == removeThisID) {
 									InputQueue.erase(InputQueue.begin() + i);
 								}
 							}
-							// std::cout << "\nInput Queue after: \n";
-							// for (int i = 0; i < InputQueue.size(); i++) {
-							// 	std::cout << InputQueue.at(i).GetPID() << " ";
-							// }
+
 							memory.printMemoryMap();
-
-
-
-
 					} else {
 						std::cout << "\nProcess " << currentProcess.GetPID() <<
 							" has to wait for memory to become free";
 					}
-
 				}
-
 				// if process completes
-
 			}
 			++time;
 			if (mainLoopCounter == 10000) {
-
+				cout << "\nmProcessrunning " << memoryManager.mProcessesRunning.size();
 				for (int jkl = 0; jkl < memoryManager.GetNumProcessesRunning(); jkl++) {
 					cout << "\nProcess running ID: " << memoryManager.mProcessesRunning.at(jkl).GetPID();
 				}
+				for (int i = 0; i < processList.size(); i++) {
+					cout << "\nProcess list ID, timeBeenRunning, execution time, current time " <<
+					processList.at(i).GetPID() << " " << processList.at(i).timeBeenRunning
+					<< " " << processList.at(i).GetExecutionTime() << " " << time;
+				}
+
 				cout << "\nwent over 10000 times\n";
 				cout << "\nnum of processes in process list " << processList.size();
 				cout << "\nnum processes running!!! " << memoryManager.GetNumProcessesRunning();
-				cout << "Test";
-				cout << "\nnum of processes in process list " << processList.size();
 
-				// exit(0);
 			}
+		 checkProcessListSize = processList.size();
+		 numProcessesRunningCheck = memoryManager.GetNumProcessesRunning();
 		}
 
-	// TODO: Compute the Average Turnaround Time.
 	float totalTime = 0;
-	// std::cout << "\nProcess List size: " << processList.size();
 
 	for (int i = 0; i < processList.size(); i++ ) {
 
 		Process currentProcess = processList.at(i);
-		// currentProcess.printProcess();
 		totalTime += currentProcess.GetExecutionTime();
 
 	}
 
-	// cout << "finishedProcesses: \n";
 	int sumOfTurnAroundTime = 0;
 	for (int f = 0; f < finishedProcesses.size(); f++)
 	{
-		// cout << finishedProcesses.at(f).GetPID() << endl;
 		int arrivalTime = finishedProcesses.at(f).GetArrivalTime();
 		int endTime = finishedProcesses.at(f).endTime;
 		int turnAroundTime = endTime - arrivalTime;
-		// cout << "This process had end time " << endTime << " and arrival time "
-		// << arrivalTime << "so turnAroundTime is " << turnAroundTime;
 		sumOfTurnAroundTime += turnAroundTime;
 	}
 	float averageTurnAroundTime = sumOfTurnAroundTime / finishedProcesses.size();

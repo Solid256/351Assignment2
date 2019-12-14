@@ -2,8 +2,8 @@
 
 ALL: PROG1
 CC = g++
-PROG1 : 
-	$(CC) -c main.cpp
-	$(CC) -c Process.cpp
-	$(CC) -c MemoryManager.cpp
+PROG1 :
+	$(CC) -c -g main.cpp
+	$(CC) -c -g Process.cpp
+	$(CC) -c -g MemoryManager.cpp
 	$(CC) -o OS_Simulator main.o Process.o MemoryManager.o
